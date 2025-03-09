@@ -1,45 +1,40 @@
 <?php
-/**
- * Template para el dashboard moderno personalizado
- *
- * @package Mi_Cuenta_Mejorado
- */
-
-if (!defined('WPINC')) {
-    die;
+// Asegurarse de que tenemos el objeto de usuario correcto
+if (!$user || !is_object($user) || !isset($user->user_email)) {
+    $user = wp_get_current_user();
 }
 
-// Reemplaza el código actual de iniciales con este:
+// Inicialización de las iniciales
 $user_initials = '';
 
-// Obtener nombre y apellido desde WP_User directamente como respaldo
-$wp_first_name = $user->first_name;
-$wp_last_name = $user->last_name;
+// Intentar obtener el nombre y apellido (con múltiples fuentes)
+$first_name = get_user_meta($user_id, 'billing_first_name', true);
+$last_name = get_user_meta($user_id, 'billing_last_name', true);
 
-// Obtener datos de billing como primera opción
-$billing_first_name = trim(get_user_meta($user_id, 'billing_first_name', true));
-$billing_last_name = trim(get_user_meta($user_id, 'billing_last_name', true));
+// Si no hay datos de facturación, intentar con datos básicos de usuario
+if (empty($first_name)) {
+    $first_name = $user->first_name;
+}
+if (empty($last_name)) {
+    $last_name = $user->last_name;
+}
 
-// Usar billing si existe, sino usar datos de WP_User
-$first_name = !empty($billing_first_name) ? $billing_first_name : $wp_first_name;
-$last_name = !empty($billing_last_name) ? $billing_last_name : $wp_last_name;
-
-// Obtener iniciales
-if (!empty(trim($first_name))) {
+// Crear iniciales si hay datos de nombre/apellido
+if (!empty($first_name)) {
     $user_initials .= strtoupper(substr(trim($first_name), 0, 1));
 }
-if (!empty(trim($last_name))) {
+if (!empty($last_name)) {
     $user_initials .= strtoupper(substr(trim($last_name), 0, 1));
 }
 
-// Si aún no tenemos iniciales, usar la primera letra del email
-if (empty(trim($user_initials)) && !empty($user->user_email)) {
+// Si no hay iniciales basadas en nombre, SIEMPRE usar email
+// NO establecer valores predeterminados
+if (empty($user_initials) && !empty($user->user_email)) {
+    // Obtener SOLO la primera letra del email
     $user_initials = strtoupper(substr($user->user_email, 0, 1));
-}
-
-// Asegurar que hay al menos un carácter
-if (empty(trim($user_initials))) {
-    $user_initials = 'U'; // User (como última opción)
+    
+    // Verificación extra - imprimir un comentario HTML para depuración
+    echo "<!-- Debug: Email usado para iniciales: " . esc_html($user->user_email) . " -->";
 }
 ?>
 
@@ -106,7 +101,7 @@ $menu_icons = array(
         </ul>
         
 <div class="mam-user-avatar">
-    <div class="mam-avatar-circle" aria-label="<?php echo esc_attr__('Avatar del usuario', 'my-account-enhanced'); ?>">
+    <div class="mam-avatar-circle">
         <?php echo esc_html($user_initials); ?>
     </div>
     <div class="mam-user-info">
