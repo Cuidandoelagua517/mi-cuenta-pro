@@ -346,11 +346,12 @@ class MAM_Dashboard {
      * @param array $classes Clases del cuerpo
      * @return array Clases modificadas
      */
-    public function add_body_class($classes) {
-        if (is_account_page()) {
-            $classes[] = 'mam-my-account';
-        }
-        
-        return $classes;
+   public function add_body_class($classes) {
+    if (is_account_page()) {
+        $classes[] = 'mam-my-account';
+        // AÑADE esta línea a la función existente
+        $classes[] = 'mam-modernized-account'; // Nueva clase para el diseño modernizado
     }
+    
+    return $classes;
 }
