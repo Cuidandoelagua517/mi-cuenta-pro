@@ -68,7 +68,42 @@ body.woocommerce-account .u-columns {
     border-top-color: transparent;
     animation: mam-spin 1s linear infinite;
 }
+/* Loader para navegación AJAX */
+.mam-ajax-loader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255,255,255,0.7);
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 
+.mam-loader-spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid #4361ee;
+    border-radius: 50%;
+    animation: mam-spin 1s linear infinite;
+}
+
+@keyframes mam-spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Estilos para elementos activos en la navegación */
+.mam-nav-menu li.is-active a,
+.woocommerce-MyAccount-navigation-link.is-active a {
+    background-color: #edf2ff;
+    color: #4361ee;
+    font-weight: 600;
+    border-left: 4px solid #4361ee;
+}
 /* Sistema de notificaciones */
 .mam-notification {
     position: fixed;
