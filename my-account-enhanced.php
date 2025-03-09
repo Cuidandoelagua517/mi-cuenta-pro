@@ -81,6 +81,14 @@ function mam_init() {
         return;
     }
 
+    // Depuración para verificar rutas
+    $dashboard_file = MAM_PLUGIN_DIR . 'includes/class-dashboard.php';
+    if (!file_exists($dashboard_file)) {
+        add_action('admin_notices', function() use ($dashboard_file) {
+            echo '<div class="error"><p>Error: No se encontró el archivo: ' . esc_html($dashboard_file) . '</p></div>';
+        });
+    }
+
     // Cargar archivos de clases principales
     mam_require_if_exists(MAM_PLUGIN_DIR . 'includes/class-fields.php');
     mam_require_if_exists(MAM_PLUGIN_DIR . 'includes/class-registration.php');
