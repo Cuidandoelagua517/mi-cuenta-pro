@@ -8,19 +8,40 @@
 if (!defined('WPINC')) {
     die;
 }
-
-// Obtener las iniciales del usuario para el avatar
+<?php
+// Reemplaza el código actual de iniciales con este:
 $user_initials = '';
-if (!empty($user_info['first_name'])) {
-    $user_initials .= strtoupper(substr($user_info['first_name'], 0, 1));
+
+// Obtener nombre y apellido desde WP_User directamente como respaldo
+$wp_first_name = $user->first_name;
+$wp_last_name = $user->last_name;
+
+// Obtener datos de billing como primera opción
+$billing_first_name = trim(get_user_meta($user_id, 'billing_first_name', true));
+$billing_last_name = trim(get_user_meta($user_id, 'billing_last_name', true));
+
+// Usar billing si existe, sino usar datos de WP_User
+$first_name = !empty($billing_first_name) ? $billing_first_name : $wp_first_name;
+$last_name = !empty($billing_last_name) ? $billing_last_name : $wp_last_name;
+
+// Obtener iniciales
+if (!empty(trim($first_name))) {
+    $user_initials .= strtoupper(substr(trim($first_name), 0, 1));
 }
-if (!empty($user_info['last_name'])) {
-    $user_initials .= strtoupper(substr($user_info['last_name'], 0, 1));
+if (!empty(trim($last_name))) {
+    $user_initials .= strtoupper(substr(trim($last_name), 0, 1));
 }
-if (empty($user_initials)) {
-    // Mostrar solo la primera letra del email si no hay nombre ni apellido
+
+// Si aún no tenemos iniciales, usar la primera letra del email
+if (empty(trim($user_initials)) && !empty($user->user_email)) {
     $user_initials = strtoupper(substr($user->user_email, 0, 1));
 }
+
+// Asegurar que hay al menos un carácter
+if (empty(trim($user_initials))) {
+    $user_initials = 'U'; // User (como última opción)
+}
+?>
 
 // Obtener el menú de navegación
 $menu_items = wc_get_account_menu_items();
