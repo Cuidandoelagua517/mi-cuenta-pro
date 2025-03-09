@@ -224,14 +224,14 @@ body.woocommerce-account .woocommerce,
   font-size: 18px;
   font-weight: 600;
   color: #4a5568; /* Color de texto más oscuro para mayor contraste */
-  margin-right: 15px;
+ margin-right: 0; /* Quitar el margen que se usaba para separarlo del texto */
   overflow: hidden;
   text-align: center;
   line-height: 1;
 }
 
 .mam-user-info {
-  flex: 1;
+  display: none; /* Oculta completamente la sección de info del usuario */
 }
 
 .mam-user-name {
@@ -520,11 +520,19 @@ body.woocommerce-account .woocommerce,
   }
   
 .mam-user-avatar {
-    position: relative;
-    width: auto;
-    margin-top: 20px;
-  }
+  display: flex;
+  justify-content: center; /* Centra horizontalmente */
+  align-items: center; /* Centra verticalmente */
+  padding: 20px;
+  margin-top: auto;
+  border-top: 1px solid var(--mam-border);
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: #ffffff;
 }
+
 
 /* Utility classes */
 .mam-text-center {
