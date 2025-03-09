@@ -117,6 +117,9 @@ elseif (function_exists('tinv_get_wishlist_products')) {
         </div>
         
 <!-- Reemplaza la sección actual del menú de navegación con esto: -->
+<!-- En templates/dashboard/dashboard.php -->
+<!-- Asegúrate de que los elementos de navegación tengan clases consistentes -->
+
 <ul class="mam-nav-menu">
     <?php foreach ($menu_items as $endpoint => $label) : 
         // Determinar si este elemento está activo
@@ -130,14 +133,19 @@ elseif (function_exists('tinv_get_wishlist_products')) {
             ? wc_get_page_permalink('myaccount') 
             : wc_get_account_endpoint_url($endpoint);
     ?>
-  <li class="<?php echo $is_active; ?>">
-    <a href="<?php echo esc_url($endpoint_url); ?>" class="direct-link">
-        <?php echo $icon; ?>
-        <span class="mam-nav-text"><?php echo esc_html($label); ?></span>
-    </a>
-</li>
+    <li class="<?php echo $is_active; ?> mam-nav-item mam-nav-item-<?php echo esc_attr($endpoint); ?>">
+        <a href="<?php echo esc_url($endpoint_url); ?>" class="mam-nav-link" data-endpoint="<?php echo esc_attr($endpoint); ?>">
+            <?php echo $icon; ?>
+            <span class="mam-nav-text"><?php echo esc_html($label); ?></span>
+        </a>
+    </li>
     <?php endforeach; ?>
 </ul>
+
+<!-- Asegurarnos de que el contenedor principal tenga un ID único y clases consistentes -->
+<main id="mam-content-area" class="mam-main-content" role="main" aria-live="polite">
+    <!-- Contenido dinámico aquí -->
+</main>
         
         <div class="mam-user-avatar">
             <div class="mam-avatar-circle" title="<?php echo esc_attr(sprintf(__('Iniciado como %s', 'my-account-enhanced'), $user->user_email)); ?>">
