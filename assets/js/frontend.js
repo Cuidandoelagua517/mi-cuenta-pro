@@ -53,6 +53,36 @@
             });
         },
     initDashboardNavigation: function() {
+        // Añadir esto dentro de initDashboardNavigation
+// Manejar envío de formularios dentro del dashboard
+$(document).on('submit', '.mam-main-content form:not(.login)', function(e) {
+    e.preventDefault();
+    
+    var $form = $(this);
+    var formData = $form.serialize();
+    var formUrl = $form.attr('action');
+    
+    // Mostrar indicador de carga
+    $('.mam-main-content').append('<div class="mam-loading">' + MAM_Data.i18n.loading + '</div>');
+    
+    $.ajax({
+        url: formUrl,
+        type: 'POST',
+        data: formData,
+        success: function(response) {
+            // Actualizar contenido con la respuesta
+            var content = $(response).find('.mam-main-content').html();
+            if (!content) {
+                content = $(response).find('.woocommerce-MyAccount-content').html();
+            }
+            $('.mam-main-content').html(content);
+        },
+        error: function() {
+            // Mostrar mensaje de error
+            $('.mam-main-content').append('<div class="mam-error">' + MAM_Data.i18n.error + '</div>');
+        }
+    });
+});
     // Interceptar clics en los enlaces de navegación del dashboard
     $(document).on('click', '.mam-nav-menu a', function(e) {
         e.preventDefault();
