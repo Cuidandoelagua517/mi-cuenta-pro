@@ -156,34 +156,35 @@ function mam_override_myaccount_template($template, $template_name) {
  * Cargar scripts y estilos del frontend
  */
 function mam_enqueue_frontend_assets() {
-    if (!function_exists('is_account_page')) {
+    if (!function_exists('is_account_page') || !is_account_page()) {
         return;
     }
     
-    if (is_account_page()) {
-        // Cargar todos los estilos necesarios
-        wp_enqueue_style(
-            'mam-modernized-styles',
-            MAM_PLUGIN_URL . 'assets/css/frontend.css',
-            array(),
-            MAM_VERSION
-        );
-        
-        // Añadir los estilos del dashboard que faltan
-        wp_enqueue_style(
-            'mam-dashboard-styles',
-            MAM_PLUGIN_URL . 'assets/css/dashboard.css',
-            array('mam-modernized-styles'),
-            MAM_VERSION
-        );
-        
-        // Añadir los estilos de formularios
-        wp_enqueue_style(
-            'mam-account-forms',
-            MAM_PLUGIN_URL . 'assets/css/account-forms.css',
-            array('mam-modernized-styles'),
-            MAM_VERSION
-        );
+    // Primero deregistrar cualquier estilo que pueda interferir
+    wp_deregister_style('woocommerce-general');
+    wp_deregister_style('woocommerce-layout');
+    
+    // Luego registrar y encolar nuestros estilos en el orden correcto
+    wp_enqueue_style(
+        'mam-base-styles',
+        MAM_PLUGIN_URL . 'assets/css/frontend.css',
+        array(),
+        MAM_VERSION . '.' . time() // Añadir timestamp para forzar recarga
+    );
+    
+    wp_enqueue_style(
+        'mam-dashboard-styles',
+        MAM_PLUGIN_URL . 'assets/css/dashboard.css',
+        array('mam-base-styles'),
+        MAM_VERSION . '.' . time()
+    );
+    
+    wp_enqueue_style(
+        'mam-account-forms',
+        MAM_PLUGIN_URL . 'assets/css/account-forms.css',
+        array('mam-base-styles'),
+        MAM_VERSION . '.' . time()
+    );
         
         // Añadir estilos críticos directamente
         add_action('wp_head', function() {
