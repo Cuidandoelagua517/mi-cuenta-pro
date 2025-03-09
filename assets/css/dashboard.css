@@ -83,7 +83,31 @@ body.woocommerce-account .woocommerce,
   overflow-y: auto;
   z-index: 10;
 }
-
+@media (max-width: 768px) {
+    .mam-sidebar {
+        width: 100%;
+        min-width: 100%;
+        max-height: none;
+        height: auto;
+        position: relative;
+    }
+    
+    .mam-nav-menu {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    
+    .mam-nav-menu li {
+        margin: 5px;
+    }
+    
+    .mam-user-avatar {
+        position: relative;
+        width: auto;
+        margin-top: 20px;
+    }
+}
 /* Logo de la tienda */
 .mam-sidebar-logo {
   display: flex;
