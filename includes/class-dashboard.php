@@ -12,16 +12,18 @@ class MAM_Dashboard {
         add_filter('body_class', array($this, 'add_body_class'));
     }
     
-    // Añadir esta nueva función para aplicar estilos inline críticos
-    public function add_custom_inline_styles() {
-        if (is_account_page()) {
-            echo '<style>
-                .woocommerce-MyAccount-navigation { display: none !important; }
-                .woocommerce-MyAccount-content { width: 100% !important; float: none !important; padding: 0 !important; margin: 0 !important; }
-                .woocommerce-account .woocommerce { width: 100% !important; max-width: 100% !important; padding: 0 !important; margin: 0 !important; }
-            </style>';
-        }
+/**
+ * Añadir estilos inline críticos para asegurar que nuestra interfaz tome prioridad
+ */
+public function add_custom_inline_styles() {
+    if (is_account_page()) {
+        echo '<style>
+            .woocommerce-MyAccount-navigation { display: none !important; }
+            .woocommerce-MyAccount-content { width: 100% !important; float: none !important; padding: 0 !important; margin: 0 !important; }
+            .woocommerce-account .woocommerce { width: 100% !important; max-width: 100% !important; padding: 0 !important; margin: 0 !important; }
+        </style>';
     }
+}
     
     public function add_body_class($classes) {
         if (is_account_page()) {
