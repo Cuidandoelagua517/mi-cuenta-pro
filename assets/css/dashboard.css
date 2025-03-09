@@ -34,7 +34,31 @@ body.woocommerce-account .woocommerce,
   display: block !important;
   opacity: 1 !important;
 }
+/* Estilos para el botón "Ver Productos" */
+.tienda-btn {
+    display: inline-block;
+    background-color: #4361ee;
+    color: white;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
 
+.tienda-btn:hover {
+    background-color: #3a56d4;
+    color: white;
+    text-decoration: none;
+}
+
+/* Ocultar el botón del menú hamburguesa si es necesario */
+.navbar-toggler {
+    display: none;
+}
 .mam-dashboard-container {
   display: flex !important;
 }
