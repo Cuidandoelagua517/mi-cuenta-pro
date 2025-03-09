@@ -25,7 +25,97 @@
     this.initModernized();
     this.initDashboardNavigation(); // Añadir esta línea
 },
-        
+        initDashboardNavigation: function() {
+            console.log('MAM Dashboard Navigation initialized'); // Debug
+            
+            // Selector preciso para los enlaces de navegación
+            $(document).on('click', '.mam-nav-menu a, .woocommerce-MyAccount-navigation-link a', function(e) {
+                console.log('Navigation link clicked'); // Debug
+                
+                // Excluir explícitamente enlaces de logout
+                if ($(this).parent().hasClass('woocommerce-MyAccount-navigation-link--customer-logout') || 
+                    $(this).attr('href').indexOf('customer-logout') > -1) {
+                    console.log('Logout link detected, allowing default behavior');
+                    return true; // Permitir comportamiento por defecto
+                }
+                
+                e.preventDefault();
+                e.stopPropagation();
+                
+                // URL del enlace
+                var url = $(this).attr('href');
+                console.log('Loading URL:', url); // Debug
+                
+                // Mostrar indicador de carga
+                if ($('.mam-ajax-loader').length === 0) {
+                    $('body').append('<div class="mam-ajax-loader"><div class="mam-loader-spinner"></div></div>');
+                }
+                $('.mam-ajax-loader').show();
+                
+                // Marcar elemento activo (tanto en navegación personalizada como en WooCommerce nativa)
+                $('.mam-nav-menu li, .woocommerce-MyAccount-navigation li').removeClass('is-active active current-menu-item');
+                $(this).closest('li').addClass('is-active active current-menu-item');
+                
+                // Cargar contenido mediante AJAX
+                $.ajax({
+                    url: url,
+                    type: 'GET',
+                    dataType: 'html',
+                    success: function(response) {
+                        console.log('AJAX response received'); // Debug
+                        
+                        // Ocultar loader
+                        $('.mam-ajax-loader').hide();
+                        
+                        // Analizar respuesta HTML
+                        var $html = $(response);
+                        
+                        // Buscar el contenido específico con múltiples selectores posibles
+                        var $content = $html.find('.woocommerce-MyAccount-content');
+                        if ($content.length === 0) {
+                            $content = $html.find('.mam-main-content');
+                        }
+                        if ($content.length === 0) {
+                            $content = $html.find('#mam-content-area');
+                        }
+                        
+                        console.log('Content found:', $content.length > 0); // Debug
+                        
+                        // Si encontramos contenido, actualizar la página
+                        if ($content.length > 0) {
+                            // Actualizar el área de contenido
+                            $('.woocommerce-MyAccount-content, .mam-main-content').html($content.html());
+                            
+                            // Actualizar URL sin recargar
+                            if (window.history && window.history.pushState) {
+                                window.history.pushState(null, null, url);
+                            }
+                            
+                            // Re-inicializar scripts específicos
+                            MAM.initEnhancedFields();
+                            
+                            // Notificar a otros scripts que el contenido ha cambiado
+                            $(document).trigger('mam_content_updated');
+                        } else {
+                            console.log('Content not found, redirecting'); // Debug
+                            // Si no se encuentra contenido, redirigir
+                            window.location.href = url;
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('AJAX error:', status, error); // Debug
+                        $('.mam-ajax-loader').hide();
+                        window.location.href = url; // Redirigir en caso de error
+                    }
+                });
+            });
+            
+            // Botón atrás del navegador
+            $(window).on('popstate', function() {
+                console.log('Popstate event detected'); // Debug
+                location.reload();
+            });
+        },
         // Añadir esta nueva función
         initModernized: function() {
             // Función para manejar el toggle del menú en móvil
