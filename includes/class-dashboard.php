@@ -5,6 +5,8 @@ class MAM_Dashboard {
     
 // Al inicio del constructor de MAM_Dashboard
 public function __construct() {
+    remove_action('woocommerce_account_navigation', 'woocommerce_account_navigation');
+add_action('woocommerce_account_navigation', function() {
     // Eliminar acción nativa de WooCommerce - MAYOR PRIORIDAD
     remove_action('woocommerce_account_dashboard', 'woocommerce_account_dashboard');
     
@@ -20,10 +22,12 @@ public function __construct() {
     
     // Asegurar que los scripts se carguen en todas las páginas de mi cuenta
     add_action('wp_enqueue_scripts', array($this, 'ensure_scripts_loaded'), 20);
+    // Llamar a este método en el constructor:
+add_action('wp_head', array($this, 'add_custom_inline_styles'), 100);
     
     // Añadir clases específicas al body
     add_filter('body_class', array($this, 'add_body_class'));
-}
+}, 1);
 
 // Añadir este nuevo método
 public function ensure_scripts_loaded() {
@@ -106,6 +110,13 @@ public function register_endpoints() {
 public function add_custom_inline_styles() {
     if (is_account_page()) {
         echo '<style>
+            .woocommerce-MyAccount-navigation { display: none !important; }
+            .woocommerce-MyAccount-content { width: 100% !important; float: none !important; }
+        </style>';
+    }
+}
+
+       echo '<style>
             .woocommerce-MyAccount-navigation { display: none !important; }
             .woocommerce-MyAccount-content { width: 100% !important; float: none !important; padding: 0 !important; margin: 0 !important; }
             .woocommerce-account .woocommerce { width: 100% !important; max-width: 100% !important; padding: 0 !important; margin: 0 !important; }
