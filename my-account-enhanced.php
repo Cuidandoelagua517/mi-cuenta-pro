@@ -284,7 +284,24 @@ function mam_enqueue_admin_assets($hook) {
         )
     ));
 }
-
+function mam_handle_ajax_requests() {
+    // Solo procesar si es una petición a Mi Cuenta
+    if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && 
+        strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest' &&
+        strpos($_SERVER['REQUEST_URI'], '/my-account/') !== false) {
+        
+        // Asegurarse de que se carguen todas las dependencias necesarias
+        if (!did_action('woocommerce_init')) {
+            do_action('woocommerce_init');
+        }
+        
+        // Configurar funciones de plantilla de WooCommerce
+        if (function_exists('wc_template_functions')) {
+            wc_template_functions();
+        }
+    }
+}
+add_action('init', 'mam_handle_ajax_requests', 5);
 /**
  * Activación del plugin
  */
