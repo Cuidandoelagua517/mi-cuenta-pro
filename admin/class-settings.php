@@ -18,7 +18,9 @@ class MAM_Settings {
      * Constructor
      */
     public function __construct() {
-
+        // Puedes inicializar hooks aquí si es necesario
+        add_action('admin_init', array($this, 'register_settings'));
+    } // <-- Esta llave de cierre faltaba
     
     /**
      * Registrar configuraciones del plugin
