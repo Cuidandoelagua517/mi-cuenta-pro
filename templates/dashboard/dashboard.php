@@ -116,22 +116,28 @@ elseif (function_exists('tinv_get_wishlist_products')) {
             </a>
         </div>
         
-        <ul class="mam-nav-menu">
-            <?php foreach ($menu_items as $endpoint => $label) : 
-                // Determinar si este elemento está activo
-                $is_active = ($endpoint === $current_endpoint) ? 'active' : '';
-                
-                // Asignar el icono correcto según el endpoint
-                $icon = isset($menu_icons[$endpoint]) ? $menu_icons[$endpoint] : '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle></svg>';
-            ?>
-            <li class="<?php echo $is_active; ?>">
-                <a href="<?php echo esc_url(wc_get_account_endpoint_url($endpoint)); ?>" aria-label="<?php echo esc_attr($label); ?>">
-                    <?php echo $icon; ?>
-                    <span class="mam-nav-text"><?php echo esc_html($label); ?></span>
-                </a>
-            </li>
-            <?php endforeach; ?>
-        </ul>
+<!-- Reemplaza la sección actual del menú de navegación con esto: -->
+<ul class="mam-nav-menu">
+    <?php foreach ($menu_items as $endpoint => $label) : 
+        // Determinar si este elemento está activo
+        $is_active = ($endpoint === $current_endpoint) ? 'active' : '';
+        
+        // Asignar el icono correcto según el endpoint
+        $icon = isset($menu_icons[$endpoint]) ? $menu_icons[$endpoint] : '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle></svg>';
+        
+        // Importante: Generar la URL correcta para cada endpoint de WooCommerce
+        $endpoint_url = $endpoint === 'dashboard' 
+            ? wc_get_page_permalink('myaccount') 
+            : wc_get_account_endpoint_url($endpoint);
+    ?>
+    <li class="<?php echo $is_active; ?>">
+        <a href="<?php echo esc_url($endpoint_url); ?>" class="direct-link">
+            <?php echo $icon; ?>
+            <span class="mam-nav-text"><?php echo esc_html($label); ?></span>
+        </a>
+    </li>
+    <?php endforeach; ?>
+</ul>
         
         <div class="mam-user-avatar">
             <div class="mam-avatar-circle" title="<?php echo esc_attr(sprintf(__('Iniciado como %s', 'my-account-enhanced'), $user->user_email)); ?>">
@@ -467,6 +473,15 @@ elseif (function_exists('tinv_get_wishlist_products')) {
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
+    // Asegurar que todos los enlaces de navegación funcionen como enlaces directos
+    const navLinks = document.querySelectorAll('.mam-nav-menu a.direct-link');
+    navLinks.forEach(link => {
+        // Eliminar cualquier evento de clic existente
+        const newLink = link.cloneNode(true);
+        link.parentNode.replaceChild(newLink, link);
+        
+        // Asegurar que el enlace funcione normalmente sin interceptación
+        newLink.addEventListener('click', function(e) {
     // Gestión de navegación en móvil
     const setupMobileNav = () => {
         // Solo añadir botón de navegación en móvil si no existe
@@ -495,15 +510,16 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         
         // Configurar comportamiento de enlaces en móvil
-        const menuLinks = document.querySelectorAll('.mam-nav-menu a');
+      const menuLinks = document.querySelectorAll('.mam-nav-menu a');
         if (window.innerWidth <= 768) {
             menuLinks.forEach(link => {
                 link.addEventListener('click', function() {
-                    // Cerrar el menú después del clic (si está abierto)
+                    // Sólo cerrar el menú, pero permitir que el navegador siga el enlace
                     const sidebar = document.querySelector('.mam-sidebar');
                     if (sidebar && sidebar.classList.contains('open')) {
                         sidebar.classList.remove('open');
                     }
+                    // NO usar preventDefault() aquí
                 });
             });
         }
