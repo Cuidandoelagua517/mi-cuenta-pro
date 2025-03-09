@@ -4,6 +4,9 @@
 class MAM_Dashboard {
     
     public function __construct() {
+        // Aumentar la prioridad a un número más bajo para que se ejecute antes
+    remove_action('woocommerce_account_dashboard', 'woocommerce_account_dashboard');
+    add_action('woocommerce_account_dashboard', array($this, 'render_custom_dashboard'), 1);
         // Mantener los hooks existentes
         add_action('woocommerce_account_dashboard', array($this, 'render_custom_dashboard'), 5);
         add_filter('woocommerce_account_menu_items', array($this, 'customize_account_menu_items'), 10, 1);
