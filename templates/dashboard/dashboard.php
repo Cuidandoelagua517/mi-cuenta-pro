@@ -1,43 +1,26 @@
 <?php
 /**
- * Sección completa del avatar para templates/dashboard/dashboard.php
+ * Template para el dashboard moderno personalizado
+ *
+ * @package Mi_Cuenta_Mejorado
  */
+
+if (!defined('WPINC')) {
+    die;
+}
 
 // Obtener las iniciales del usuario para el avatar
 $user_initials = '';
-if (!empty($user_info['first_name']) && !empty($user_info['last_name'])) {
-    // Si tiene nombre y apellido, muestra ambas iniciales
-    $user_initials = strtoupper(substr($user_info['first_name'], 0, 1) . substr($user_info['last_name'], 0, 1));
-} elseif (!empty($user_info['first_name'])) {
-    // Si solo tiene nombre, muestra la inicial del nombre
-    $user_initials = strtoupper(substr($user_info['first_name'], 0, 1));
-} elseif (!empty($user_info['last_name'])) {
-    // Si solo tiene apellido, muestra la inicial del apellido
-    $user_initials = strtoupper(substr($user_info['last_name'], 0, 1));
-} else {
-    // Si no tiene ni nombre ni apellido, muestra solo la primera letra del email
+if (!empty($user_info['first_name'])) {
+    $user_initials .= strtoupper(substr($user_info['first_name'], 0, 1));
+}
+if (!empty($user_info['last_name'])) {
+    $user_initials .= strtoupper(substr($user_info['last_name'], 0, 1));
+}
+if (empty($user_initials)) {
+    // Mostrar solo la primera letra del email si no hay nombre ni apellido
     $user_initials = strtoupper(substr($user->user_email, 0, 1));
 }
-
-// HTML del avatar con las iniciales
-?>
-<div class="mam-user-avatar">
-    <div class="mam-avatar-circle">
-        <?php echo esc_html($user_initials); ?>
-    </div>
-    <div class="mam-user-info">
-        <p class="mam-user-name">
-            <?php 
-            if (!empty($user_info['first_name']) || !empty($user_info['last_name'])) {
-                echo esc_html(trim($user_info['first_name'] . ' ' . $user_info['last_name']));
-            } else {
-                echo esc_html($user->user_email);
-            }
-            ?>
-        </p>
-        <p class="mam-user-email"><?php echo esc_html($user->user_email); ?></p>
-    </div>
-</div>
 
 // Obtener el menú de navegación
 $menu_items = wc_get_account_menu_items();
@@ -106,7 +89,15 @@ $menu_icons = array(
                 <?php echo esc_html($user_initials); ?>
             </div>
             <div class="mam-user-info">
-                <p class="mam-user-name"><?php echo esc_html($user_info['first_name'] . ' ' . $user_info['last_name']); ?></p>
+                <p class="mam-user-name">
+                    <?php 
+                    if (!empty($user_info['first_name']) || !empty($user_info['last_name'])) {
+                        echo esc_html(trim($user_info['first_name'] . ' ' . $user_info['last_name']));
+                    } else {
+                        echo esc_html($user->user_email);
+                    }
+                    ?>
+                </p>
                 <p class="mam-user-email"><?php echo esc_html($user->user_email); ?></p>
             </div>
         </div>
