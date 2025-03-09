@@ -1,0 +1,182 @@
+/**
+ * Estilos específicos para el dashboard personalizado de Mi Cuenta
+ */
+
+/* Contenedor principal del dashboard */
+.mam-dashboard {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.mam-dashboard-header {
+  margin-bottom: 25px;
+}
+
+.mam-dashboard-header h2 {
+  margin-top: 0;
+  font-size: 24px;
+  font-weight: 600;
+  color: #1f2937;
+}
+
+.mam-dashboard-header p {
+  margin-top: 5px;
+  color: #6b7280;
+}
+
+/* Contenedor de contenido */
+.mam-dashboard-content {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 20px;
+}
+
+/* Tarjetas de dashboard */
+.mam-dashboard-card {
+  background-color: #fff;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  padding: 20px;
+  border: 1px solid #e5e7eb;
+}
+
+.mam-dashboard-card h3 {
+  margin-top: 0;
+  margin-bottom: 15px;
+  font-size: 18px;
+  font-weight: 600;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #e5e7eb;
+  color: #1f2937;
+}
+
+/* Tarjeta de usuario */
+.mam-user-card {
+  grid-column: 1 / -1;
+}
+
+.mam-user-details {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.mam-user-details p {
+  margin: 0;
+}
+
+.mam-user-details strong {
+  color: #4b5563;
+}
+
+/* Tarjeta de empresa */
+.mam-company-card {
+  grid-column: 1 / -1;
+}
+
+.mam-company-details {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.mam-company-details p {
+  margin: 0;
+}
+
+/* Tarjeta de pedidos */
+.mam-orders-card {
+  grid-column: 1 / -1;
+}
+
+.mam-orders-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+.mam-orders-table th, 
+.mam-orders-table td {
+  padding: 8px 12px;
+  text-align: left;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.mam-orders-table th {
+  font-weight: 600;
+  color: #4b5563;
+  background-color: #f9fafb;
+}
+
+/* Tarjeta de direcciones */
+.mam-addresses-card {
+  grid-column: 1 / -1;
+}
+
+.mam-addresses-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.mam-address-box {
+  background-color: #f9fafb;
+  padding: 15px;
+  border-radius: 0.4rem;
+  border: 1px solid #e5e7eb;
+}
+
+.mam-address-box h4 {
+  margin-top: 0;
+  margin-bottom: 10px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #1f2937;
+}
+
+.mam-address-box address {
+  font-style: normal;
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* Botones */
+.mam-dashboard-card .button {
+  display: inline-block;
+  background-color: #2563eb;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 0.4rem;
+  text-decoration: none;
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.mam-dashboard-card .button:hover {
+  background-color: #1d4ed8;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .mam-dashboard-content {
+    grid-template-columns: 1fr;
+  }
+  
+  .mam-user-details,
+  .mam-company-details,
+  .mam-addresses-container {
+    grid-template-columns: 1fr;
+  }
+  
+  .mam-orders-table {
+    display: block;
+    width: 100%;
+    overflow-x: auto;
+  }
+}
