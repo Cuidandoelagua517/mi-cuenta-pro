@@ -205,13 +205,13 @@ function mam_enqueue_frontend_assets() {
         );
         
         // Localizar script - ESTO DEBE ESTAR DENTRO DE LA CONDICIÓN is_account_page()
-        wp_localize_script('mam-frontend-scripts', 'MAM_Data', array(
-            'ajaxurl' => admin_url('admin-ajax.php'),
-            'security' => wp_create_nonce('mam-frontend-nonce'),
-            'i18n' => array(
+    wp_localize_script('mam-frontend-scripts', 'MAM_Data', array(
+    'ajaxurl' => admin_url('admin-ajax.php'),
+    'security' => wp_create_nonce('mam-frontend-nonce'),
+    'i18n' => array(
                 'menu' => __('Menú', 'my-account-enhanced'),
-                'loading' => __('Cargando...', 'my-account-enhanced'),
-                'error' => __('Ha ocurrido un error, por favor intenta de nuevo.', 'my-account-enhanced'),
+'loading' => __('Cargando...', 'my-account-enhanced'),
+        'error' => __('Ha ocurrido un error, por favor intenta de nuevo.', 'my-account-enhanced'),
                 'view' => __('Ver', 'my-account-enhanced'),
                 'orderNumber' => __('Pedido', 'my-account-enhanced'),
                 'date' => __('Fecha', 'my-account-enhanced'),
