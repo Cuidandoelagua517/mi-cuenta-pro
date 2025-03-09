@@ -25,7 +25,7 @@ public function register_endpoints() {
     // Asegurarse de que los endpoints estándar de WooCommerce estén registrados
     add_rewrite_endpoint('orders', EP_ROOT | EP_PAGES);
     add_rewrite_endpoint('view-order', EP_ROOT | EP_PAGES);
-    add_rewrite_endpoint('downloads', EP_ROOT | EP_PAGES);
+    add_rewrite_endpoint('downloads', EP_ROOT | EP_PAGES); // Asegurarse de que este está incluido
     add_rewrite_endpoint('edit-account', EP_ROOT | EP_PAGES);
     add_rewrite_endpoint('edit-address', EP_ROOT | EP_PAGES);
     add_rewrite_endpoint('customer-logout', EP_ROOT | EP_PAGES);
