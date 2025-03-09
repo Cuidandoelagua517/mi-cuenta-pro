@@ -45,24 +45,82 @@ body.woocommerce-account .u-columns {
 
 /* Indicador de carga */
 .mam-loading {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    z-index: 9999;
     text-align: center;
-    padding: 15px;
-    color: #6b7280;
 }
 
 .mam-loading:after {
     content: "";
-    display: inline-block;
-    width: 16px;
-    height: 16px;
-    border: 2px solid #2563eb;
+    display: block;
+    width: 30px;
+    height: 30px;
+    margin: 10px auto 0;
+    border: 3px solid #2563eb;
     border-radius: 50%;
     border-top-color: transparent;
     animation: mam-spin 1s linear infinite;
-    vertical-align: middle;
-    margin-left: 8px;
 }
 
+/* Sistema de notificaciones */
+.mam-notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 15px 20px;
+    border-radius: 5px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+    z-index: 10000;
+    transform: translateX(120%);
+    transition: transform 0.3s ease;
+    max-width: 350px;
+    color: white;
+}
+.mam-notification.mam-show {
+    transform: translateX(0);
+}
+
+.mam-notification-success {
+    background-color: #10b981;
+}
+
+.mam-notification-error {
+    background-color: #ef4444;
+}
+
+.mam-notification-close {
+    margin-left: 10px;
+    cursor: pointer;
+    opacity: 0.7;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.mam-notification-close:hover {
+    opacity: 1;
+}
+
+/* Estilo para el estado activo de navegación */
+.mam-nav-menu .active {
+    background-color: #edf2ff;
+    border-left: 4px solid #4361ee;
+}
+
+/* Transición suave para cambios de contenido */
+.mam-main-content {
+    transition: opacity 0.3s ease;
+}
+
+.mam-main-content.mam-loading-content {
+    opacity: 0.6;
+}
 @keyframes mam-spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
