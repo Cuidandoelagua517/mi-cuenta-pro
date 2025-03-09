@@ -64,11 +64,11 @@ $menu_icons = array(
 
 <div class="mam-dashboard-container">
         
-<div class="mam-sidebar-logo">
-            <a href="<?php echo esc_url(home_url('/shop')); ?>" class="mam-shop-button">
-                Ver Productos
-            </a>
-        </div>
+<div class="tienda-container">
+    <a href="<?php echo esc_url(home_url('/shop')); ?>" class="tienda-btn">
+        TIENDA
+    </a>
+</div>
     
     <ul class="mam-nav-menu">
             <?php foreach ($menu_items as $endpoint => $label) : ?>
