@@ -21,7 +21,23 @@
   --mam-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
   --mam-menu-width: 250px;
 }
+/* Reset de visibilidad - AÑADIR AL INICIO DEL ARCHIVO */
+body.woocommerce-account .woocommerce,
+.woocommerce-account .woocommerce-MyAccount-content,
+.mam-dashboard,
+.mam-dashboard-container,
+.mam-sidebar,
+.mam-main-content,
+.mam-dashboard-card,
+.mam-dashboard-header {
+  visibility: visible !important;
+  display: block !important;
+  opacity: 1 !important;
+}
 
+.mam-dashboard-container {
+  display: flex !important;
+}
 /* Layout principal */
 .mam-dashboard-container {
   display: flex;
