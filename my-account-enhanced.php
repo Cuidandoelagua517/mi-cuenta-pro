@@ -148,7 +148,7 @@ function mam_override_myaccount_template($template, $template_name) {
 // En my-account-enhanced.php, dentro de la función mam_enqueue_frontend_assets()
 function mam_enqueue_frontend_assets() {
     // Verificar que la función existe (después de que WooCommerce está cargado)
-    if (!function_exists('is_account_page')) {
+ if (!function_exists('is_account_page')) {
         return;
     }
     
@@ -160,16 +160,24 @@ function mam_enqueue_frontend_assets() {
             array(),
             MAM_VERSION . '.' . time() // Añadir timestamp para evitar caché
         );
-        
-        // Añadir jQuery y script para el toggle del menú en móvil
-        wp_enqueue_script(
-            'mam-modernized-scripts',
-            MAM_PLUGIN_URL . 'assets/js/frontend.js',
-            array('jquery'),
-            MAM_VERSION . '.' . time(), // Añadir timestamp para evitar caché
-            true
+      // Cargar nuestros estilos con mayor prioridad
+        wp_enqueue_style(
+            'mam-frontend-styles',
+            MAM_PLUGIN_URL . 'assets/css/frontend.css',
+            array(),
+            MAM_VERSION . '.' . time() // Añadir timestamp para evitar caché
         );
+        
+        // También puedes aplicar estilos críticos directamente
+        add_action('wp_head', function() {
+            echo '<style>
+                .woocommerce-MyAccount-navigation { display: none !important; }
+                .woocommerce-MyAccount-content { width: 100% !important; float: none !important; padding: 0 !important; margin: 0 !important; }
+                .woocommerce-account .woocommerce { width: 100% !important; max-width: 100% !important; padding: 0 !important; margin: 0 !important; }
+            </style>';
+        }, 999); // Alta prioridad para asegurar que se carga después de otros estilos
     }
+}
 }
         
         // Localize script
