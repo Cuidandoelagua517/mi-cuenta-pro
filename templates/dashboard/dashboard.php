@@ -105,11 +105,11 @@ $menu_icons = array(
             <?php endforeach; ?>
         </ul>
         
-        <div class="mam-user-avatar">
-            <div class="mam-avatar-circle">
-                <?php echo esc_html($user_initials); ?>
-            </div>
-            <div class="mam-user-info">
+<div class="mam-user-avatar">
+    <div class="mam-avatar-circle" aria-label="<?php echo esc_attr__('Avatar del usuario', 'my-account-enhanced'); ?>">
+        <?php echo esc_html($user_initials); ?>
+    </div>
+    <div class="mam-user-info">
                 <p class="mam-user-name">
                     <?php 
                     if (!empty($user_info['first_name']) || !empty($user_info['last_name'])) {
