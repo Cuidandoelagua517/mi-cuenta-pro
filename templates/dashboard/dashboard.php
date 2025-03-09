@@ -70,7 +70,8 @@ $menu_icons = array(
         </button>
         
         <div class="mam-sidebar-logo">
-          <a href="/shop" class="tienda-btn">Ver Productos</a>
+<div class="d-flex align-items-center">
+    <a href="/shop" class="tienda-btn mr-3">Ver Productos</a>
         </div>
         
         <ul class="mam-nav-menu">
