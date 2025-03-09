@@ -45,25 +45,34 @@ body.woocommerce-account .u-columns {
 
 /* Indicador de carga */
 .mam-loading {
-  text-align: center;
-  padding: 15px;
-  color: #6b7280;
+    text-align: center;
+    padding: 15px;
+    color: #6b7280;
 }
 
 .mam-loading:after {
-  content: "";
-  display: inline-block;
-  width: 16px;
-  height: 16px;
-  border: 2px solid #2563eb;
-  border-radius: 50%;
-  border-top-color: transparent;
-  animation: mam-spin 1s linear infinite;
-  vertical-align: middle;
-  margin-left: 8px;
+    content: "";
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border: 2px solid #2563eb;
+    border-radius: 50%;
+    border-top-color: transparent;
+    animation: mam-spin 1s linear infinite;
+    vertical-align: middle;
+    margin-left: 8px;
 }
 
 @keyframes mam-spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Mensaje de error */
+.mam-error {
+    color: #e53e3e;
+    padding: 15px;
+    background-color: #fed7d7;
+    border-radius: 4px;
+    margin-bottom: 20px;
 }
