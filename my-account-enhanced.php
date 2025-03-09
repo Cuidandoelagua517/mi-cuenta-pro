@@ -146,19 +146,33 @@ function mam_override_myaccount_template($template, $template_name) {
  * Cargar scripts y estilos del frontend
  */
 function mam_enqueue_frontend_assets() {
-    // Verificar que la función existe (después de que WooCommerce está cargado)
     if (!function_exists('is_account_page')) {
         return;
     }
     
-    // Cargar estilos modernizados en páginas de Mi Cuenta
     if (is_account_page()) {
-        // Cargar estilos principales
+        // Cargar todos los estilos necesarios
         wp_enqueue_style(
             'mam-modernized-styles',
             MAM_PLUGIN_URL . 'assets/css/frontend.css',
             array(),
-            MAM_VERSION . '.' . time() // Añadir timestamp para evitar caché
+            MAM_VERSION
+        );
+        
+        // Añadir los estilos del dashboard que faltan
+        wp_enqueue_style(
+            'mam-dashboard-styles',
+            MAM_PLUGIN_URL . 'assets/css/dashboard.css',
+            array('mam-modernized-styles'),
+            MAM_VERSION
+        );
+        
+        // Añadir los estilos de formularios
+        wp_enqueue_style(
+            'mam-account-forms',
+            MAM_PLUGIN_URL . 'assets/css/account-forms.css',
+            array('mam-modernized-styles'),
+            MAM_VERSION
         );
         
         // Añadir estilos críticos directamente
