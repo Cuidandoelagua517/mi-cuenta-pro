@@ -81,14 +81,6 @@ function mam_init() {
         return;
     }
 
-    // Depuración para verificar rutas
-    $dashboard_file = MAM_PLUGIN_DIR . 'includes/class-dashboard.php';
-    if (!file_exists($dashboard_file)) {
-        add_action('admin_notices', function() use ($dashboard_file) {
-            echo '<div class="error"><p>Error: No se encontró el archivo: ' . esc_html($dashboard_file) . '</p></div>';
-        });
-    }
-
     // Cargar archivos de clases principales
     mam_require_if_exists(MAM_PLUGIN_DIR . 'includes/class-fields.php');
     mam_require_if_exists(MAM_PLUGIN_DIR . 'includes/class-registration.php');
@@ -136,6 +128,10 @@ function mam_init() {
     add_filter('woocommerce_locate_template', 'mam_override_myaccount_template', 10, 2);
 }
 add_action('plugins_loaded', 'mam_init');
+
+/**
+ * Override del template de Mi Cuenta
+ */
 function mam_override_myaccount_template($template, $template_name) {
     if ($template_name === 'myaccount/form-login.php') {
         $custom_template = MAM_PLUGIN_DIR . 'templates/my-account-template.php';
@@ -145,33 +141,17 @@ function mam_override_myaccount_template($template, $template_name) {
     }
     return $template;
 }
-/**
- * Override del template de Mi Cuenta
- */
-function mam_override_dashboard_template($located, $template_name, $args, $template_path, $default_path) {
-    if ($template_name === 'myaccount/dashboard.php') {
-        $custom_template = MAM_PLUGIN_DIR . 'templates/dashboard/dashboard.php';
-        if (file_exists($custom_template)) {
-            return $custom_template;
-        }
-    }
-    return $located;
-}
-add_filter('wc_get_template', 'mam_override_dashboard_template', 10, 5);
 
 /**
  * Cargar scripts y estilos del frontend
  */
-// Dentro de la función mam_enqueue_frontend_assets() en my-account-enhanced.php
-// Busca la sección que carga los estilos del dashboard y modifícala así:
-
 function mam_enqueue_frontend_assets() {
     if (!function_exists('is_account_page')) {
         return;
     }
     
     if (is_account_page()) {
-        // Cargar estilos modernizados manteniendo los mismos nombres de archivo
+        // Cargar todos los estilos necesarios
         wp_enqueue_style(
             'mam-modernized-styles',
             MAM_PLUGIN_URL . 'assets/css/frontend.css',
@@ -179,7 +159,7 @@ function mam_enqueue_frontend_assets() {
             MAM_VERSION
         );
         
-        // Ahora el dashboard.css tiene el diseño moderno
+        // Añadir los estilos del dashboard que faltan
         wp_enqueue_style(
             'mam-dashboard-styles',
             MAM_PLUGIN_URL . 'assets/css/dashboard.css',
@@ -187,7 +167,7 @@ function mam_enqueue_frontend_assets() {
             MAM_VERSION
         );
         
-        // Añadir estilos de formularios
+        // Añadir los estilos de formularios
         wp_enqueue_style(
             'mam-account-forms',
             MAM_PLUGIN_URL . 'assets/css/account-forms.css',
@@ -201,22 +181,10 @@ function mam_enqueue_frontend_assets() {
                 .woocommerce-MyAccount-navigation { display: none !important; }
                 .woocommerce-MyAccount-content { width: 100% !important; float: none !important; padding: 0 !important; margin: 0 !important; }
                 .woocommerce-account .woocommerce { width: 100% !important; max-width: 100% !important; padding: 0 !important; margin: 0 !important; }
-                
-                /* Prevenir flash de contenido no estilizado */
-                .woocommerce-account .woocommerce { visibility: hidden; }
-                .woocommerce-account.mam-modernized-account .woocommerce { visibility: visible; }
-                
-                /* Estilos básicos del dashboard modernizado */
-                .mam-dashboard-container { display: flex; }
-                .mam-sidebar { width: 250px; position: sticky; top: 0; height: 100vh; background: white; }
-                .mam-main-content { flex: 1; padding: 30px; }
             </style>';
-            
-            // Script para marcar que los estilos están cargados
-            echo '<script>document.body.classList.add("mam-modernized-account-loaded");</script>';
         }, 999);
         
-        // Cargar script frontend
+        // Cargar script frontend 
         wp_enqueue_script(
             'mam-frontend-scripts',
             MAM_PLUGIN_URL . 'assets/js/frontend.js',
@@ -225,7 +193,7 @@ function mam_enqueue_frontend_assets() {
             true
         );
         
-        // Localizar script
+        // Localizar script - ESTO DEBE ESTAR DENTRO DE LA CONDICIÓN is_account_page()
         wp_localize_script('mam-frontend-scripts', 'MAM_Data', array(
             'ajaxurl' => admin_url('admin-ajax.php'),
             'security' => wp_create_nonce('mam-frontend-nonce'),
