@@ -1,36 +1,37 @@
 <?php
-/**
- * Clase para manejar el dashboard personalizado
- *
- * @package Mi_Cuenta_Mejorado
- */
-
-if (!defined('WPINC')) {
-    die;
-}
-
-/**
- * Clase para gestionar el dashboard
- */
+// En includes/class-dashboard.php
 class MAM_Dashboard {
     
-    /**
-     * Constructor
-     */
     public function __construct() {
-        // Reemplazar contenido del dashboard
+        // Mantener los hooks existentes
         add_action('woocommerce_account_dashboard', array($this, 'render_custom_dashboard'), 5);
-        
-        // Modificar el orden de las secciones en mi cuenta
         add_filter('woocommerce_account_menu_items', array($this, 'customize_account_menu_items'), 10, 1);
         
-        // Añadir nueva clase CSS al cuerpo para personalizar
+        // Añadir estas líneas nuevas para asegurarnos de ocultar la navegación nativa
+        add_action('wp_head', array($this, 'add_custom_inline_styles'));
         add_filter('body_class', array($this, 'add_body_class'));
     }
     
-    /**
-     * Renderizar dashboard personalizado
-     */
+    // Añadir esta nueva función para aplicar estilos inline críticos
+    public function add_custom_inline_styles() {
+        if (is_account_page()) {
+            echo '<style>
+                .woocommerce-MyAccount-navigation { display: none !important; }
+                .woocommerce-MyAccount-content { width: 100% !important; float: none !important; padding: 0 !important; margin: 0 !important; }
+                .woocommerce-account .woocommerce { width: 100% !important; max-width: 100% !important; padding: 0 !important; margin: 0 !important; }
+            </style>';
+        }
+    }
+    
+    public function add_body_class($classes) {
+        if (is_account_page()) {
+            $classes[] = 'mam-my-account';
+            $classes[] = 'mam-modernized-account'; // Añadir esta clase
+        }
+        
+        return $classes;
+    }
+    
     public function render_custom_dashboard() {
         // Eliminar la acción predeterminada de WooCommerce
         remove_action('woocommerce_account_dashboard', 'woocommerce_account_dashboard');
