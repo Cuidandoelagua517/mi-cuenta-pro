@@ -170,16 +170,16 @@ function mam_enqueue_frontend_assets() {
             </style>';
         }, 999);
         
-        // Cargar script frontend
+        // Cargar script frontend 
         wp_enqueue_script(
             'mam-frontend-scripts',
             MAM_PLUGIN_URL . 'assets/js/frontend.js',
             array('jquery'),
-            MAM_VERSION . '.' . time(),
+            MAM_VERSION,
             true
         );
         
-        // Localizar script con datos
+        // Localizar script - ESTO DEBE ESTAR DENTRO DE LA CONDICIÓN is_account_page()
         wp_localize_script('mam-frontend-scripts', 'MAM_Data', array(
             'ajaxurl' => admin_url('admin-ajax.php'),
             'security' => wp_create_nonce('mam-frontend-nonce'),
