@@ -23,17 +23,8 @@ public function add_custom_inline_styles() {
             .woocommerce-account .woocommerce { width: 100% !important; max-width: 100% !important; padding: 0 !important; margin: 0 !important; }
         </style>';
     }
-}
-    
-    public function add_body_class($classes) {
-        if (is_account_page()) {
-            $classes[] = 'mam-my-account';
-            $classes[] = 'mam-modernized-account'; // Añadir esta clase
-        }
-        
-        return $classes;
-    }
-    
+}  
+ 
     public function render_custom_dashboard() {
         // Eliminar la acción predeterminada de WooCommerce
         remove_action('woocommerce_account_dashboard', 'woocommerce_account_dashboard');
