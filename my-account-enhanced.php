@@ -128,7 +128,17 @@ function mam_init() {
     add_filter('woocommerce_locate_template', 'mam_override_myaccount_template', 10, 2);
 }
 add_action('plugins_loaded', 'mam_init');
-
+// Reemplaza esta función en my-account-enhanced.php
+function mam_override_dashboard_template($located, $template_name, $args, $template_path, $default_path) {
+    if ($template_name === 'myaccount/dashboard.php') {
+        $custom_template = MAM_PLUGIN_DIR . 'templates/dashboard/dashboard.php';
+        if (file_exists($custom_template)) {
+            return $custom_template;
+        }
+    }
+    return $located;
+}
+add_filter('wc_get_template', 'mam_override_dashboard_template', 10, 5);
 /**
  * Override del template de Mi Cuenta
  */
