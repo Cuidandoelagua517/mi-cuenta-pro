@@ -136,7 +136,15 @@ function mam_init() {
     add_filter('woocommerce_locate_template', 'mam_override_myaccount_template', 10, 2);
 }
 add_action('plugins_loaded', 'mam_init');
-
+function mam_override_myaccount_template($template, $template_name) {
+    if ($template_name === 'myaccount/form-login.php') {
+        $custom_template = MAM_PLUGIN_DIR . 'templates/my-account-template.php';
+        if (file_exists($custom_template)) {
+            return $custom_template;
+        }
+    }
+    return $template;
+}
 /**
  * Override del template de Mi Cuenta
  */
