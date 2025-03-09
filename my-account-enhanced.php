@@ -228,6 +228,52 @@ function mam_ajax_compatibility() {
 }
 add_action('init', 'mam_ajax_compatibility', 5);
 /**
+ * Asegurar que las variables necesarias estén disponibles para el dashboard
+ */
+function mam_ensure_dashboard_variables($template_name, $template_path, $located, $args) {
+    if (strpos($located, 'dashboard/dashboard.php') !== false) {
+        // Si la plantilla es nuestro dashboard, asegurarnos de que las variables estén disponibles
+        global $user, $user_id, $user_info, $recent_orders, $company_data;
+        
+        if (!isset($user) || !is_object($user)) {
+            $user = wp_get_current_user();
+        }
+        
+        if (!isset($user_id) || empty($user_id)) {
+            $user_id = get_current_user_id();
+        }
+        
+        if (!isset($user_info) || !is_array($user_info)) {
+            // Inicializar información de usuario
+            $user_info = array(
+                'first_name' => get_user_meta($user_id, 'billing_first_name', true),
+                'last_name' => get_user_meta($user_id, 'billing_last_name', true),
+                'phone' => get_user_meta($user_id, 'billing_phone', true),
+                'birthday' => get_user_meta($user_id, 'customer_birthday', true)
+            );
+        }
+        
+        if (!isset($recent_orders)) {
+            // Obtener pedidos recientes
+            $recent_orders = wc_get_orders(array(
+                'customer' => $user_id,
+                'limit' => 5,
+                'orderby' => 'date',
+                'order' => 'DESC'
+            ));
+        }
+        
+        if (!isset($company_data)) {
+            // Obtener datos de empresa
+            $company_data = array(
+                'name' => get_user_meta($user_id, 'billing_company', true),
+                'cuit' => get_user_meta($user_id, 'billing_cuit', true)
+            );
+        }
+    }
+}
+add_action('woocommerce_before_template_part', 'mam_ensure_dashboard_variables', 10, 4);
+/**
  * Filtrar navegación para asegurar clases CSS correctas
  */
 function mam_filter_account_navigation($items) {
