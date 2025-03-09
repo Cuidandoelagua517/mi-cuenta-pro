@@ -1,0 +1,300 @@
+/**
+ * Estilos específicos para el panel de marcas
+ */
+
+/* Panel de marcas */
+.mam-brands-panel {
+  background-color: #fff;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07);
+  padding: 20px;
+  margin-bottom: 30px;
+  position: relative;
+  border: 1px solid #e5e7eb;
+}
+
+.mam-brands-panel h4 {
+  margin-top: 0;
+  margin-bottom: 15px;
+  font-size: 18px;
+  font-weight: 600;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #e5e7eb;
+  color: #1f2937;
+}
+
+.mam-brands-container {
+  display: grid;
+  gap: 15px;
+}
+
+/* Configuración de columnas */
+.mam-brands-container.columns-1 {
+  grid-template-columns: 1fr;
+}
+
+.mam-brands-container.columns-2 {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.mam-brands-container.columns-3 {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.mam-brands-container.columns-4 {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+/* Responsivo */
+@media (max-width: 768px) {
+  .mam-brands-container.columns-3,
+  .mam-brands-container.columns-4 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .mam-brands-container.columns-2,
+  .mam-brands-container.columns-3,
+  .mam-brands-container.columns-4 {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Elemento de marca */
+.mam-brand-item {
+  text-align: center;
+  cursor: pointer;
+  padding: 15px;
+  background-color: #f9f9f9;
+  border-radius: 0.5rem;
+  transition: all 0.2s ease-in-out;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 80px;
+  border: 1px solid transparent;
+}
+
+.mam-brand-item:hover {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transform: translateY(-3px);
+  border-color: #e5e7eb;
+  background-color: #fff;
+}
+
+.mam-brand-item:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* Logo de marca */
+.mam-brand-logo {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+  transition: all 0.2s ease-in-out;
+}
+
+.mam-brand-name {
+  display: block;
+  font-weight: 500;
+  margin-top: 8px;
+  color: #1f2937;
+  font-size: 14px;
+  transition: all 0.2s ease-in-out;
+}
+
+/* Tamaños de logo */
+.mam-brands-container.size-small .mam-brand-logo {
+  max-height: 30px;
+}
+
+.mam-brands-container.size-medium .mam-brand-logo {
+  max-height: 50px;
+}
+
+.mam-brands-container.size-large .mam-brand-logo {
+  max-height: 70px;
+}
+
+/* Filtro por marca */
+.mam-brand-filter {
+  margin-top: 20px;
+  text-align: center;
+  padding-top: 15px;
+  border-top: 1px solid #e5e7eb;
+}
+
+.mam-filter-by-brand {
+  background-color: #2563eb;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 0.5rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+  font-size: 14px;
+  display: inline-flex;
+  align-items: center;
+}
+
+.mam-filter-by-brand:hover {
+  background-color: #1e40af;
+}
+
+.mam-filter-by-brand:before {
+  content: "";
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon></svg>');
+  background-size: contain;
+  background-repeat: no-repeat;
+  margin-right: 8px;
+}
+
+/* Modal de filtro de marcas */
+.mam-brand-filter-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  z-index: 999999;
+  display: none;
+}
+
+.mam-modal-content {
+  position: relative;
+  background-color: #fff;
+  margin: 50px auto;
+  padding: 20px;
+  width: 90%;
+  max-width: 600px;
+  border-radius: 0.5rem;
+  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.mam-close-modal {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 24px;
+  font-weight: bold;
+  color: #666;
+  cursor: pointer;
+  line-height: 1;
+}
+
+.mam-close-modal:hover {
+  color: #000;
+}
+
+.mam-modal-content h3 {
+  margin-top: 0;
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #e5e7eb;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.mam-modal-brands {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 15px;
+}
+
+/* Indicador de carga */
+.mam-loading {
+  text-align: center;
+  padding: 15px;
+  background-color: #f9f9f9;
+  border-radius: 0.5rem;
+  margin: 15px 0;
+}
+
+.mam-loading:after {
+  content: "";
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border: 2px solid #2563eb;
+  border-radius: 50%;
+  border-top-color: transparent;
+  animation: mam-spin 1s linear infinite;
+  vertical-align: middle;
+  margin-left: 8px;
+}
+
+@keyframes mam-spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Estilos en modo sticky */
+@media (min-width: 769px) {
+  .mam-brands-panel.sticky {
+    position: fixed;
+    top: 32px; /* Ajustar para la barra de admin de WP */
+    z-index: 100;
+    width: 260px; /* Ancho fijo para panel sticky */
+  }
+  
+  body:not(.admin-bar) .mam-brands-panel.sticky {
+    top: 0;
+  }
+  
+  /* Estilo especial cuando es sticky */
+  .mam-brands-panel.sticky .mam-brands-container {
+    max-height: calc(80vh - 120px);
+    overflow-y: auto;
+    padding-right: 5px;
+  }
+  
+  /* Barra de desplazamiento personalizada */
+  .mam-brands-panel.sticky .mam-brands-container::-webkit-scrollbar {
+    width: 5px;
+  }
+  
+  .mam-brands-panel.sticky .mam-brands-container::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+  }
+  
+  .mam-brands-panel.sticky .mam-brands-container::-webkit-scrollbar-thumb {
+    background: #d4d4d4;
+    border-radius: 10px;
+  }
+  
+  .mam-brands-panel.sticky .mam-brands-container::-webkit-scrollbar-thumb:hover {
+    background: #b3b3b3;
+  }
+}
+
+/* Notificación de filtro activo */
+.mam-filter-active {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 15px;
+  background-color: #ebf5ff;
+  border-left: 4px solid #2563eb;
+  border-radius: 0.5rem;
+  margin-bottom: 20px;
+}
+
+.mam-filter-active .button {
+  margin-left: 10px;
+  font-size: 12px;
+  padding: 5px 10px;
+  height: auto;
+  line-height: 1.5;
+}

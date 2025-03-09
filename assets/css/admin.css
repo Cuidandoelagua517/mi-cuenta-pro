@@ -1,0 +1,240 @@
+/**
+ * Estilos de administración para Mi Cuenta Mejorado
+ */
+
+/* Estructura general */
+.mam-admin-wrap {
+    margin: 20px 0;
+}
+
+.mam-admin-wrap .nav-tab-wrapper {
+    margin-bottom: 20px;
+}
+
+.mam-admin-wrap .tab-content {
+    background-color: #fff;
+    padding: 20px;
+    border: 1px solid #ccd0d4;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
+    margin-bottom: 20px;
+}
+
+.mam-admin-wrap .form-table th {
+    padding: 20px 10px 20px 0;
+    width: 200px;
+}
+
+/* Tablas */
+.mam-fields-table,
+.mam-sections-table {
+    margin-bottom: 20px;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.mam-fields-table th,
+.mam-sections-table th {
+    background-color: #f9f9f9;
+    text-align: left;
+    padding: 10px;
+    border-bottom: 1px solid #ccd0d4;
+}
+
+.mam-fields-table td,
+.mam-sections-table td {
+    padding: 12px 10px;
+    vertical-align: middle;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.mam-fields-table tr:hover td,
+.mam-sections-table tr:hover td {
+    background-color: #f9f9f9;
+}
+
+.mam-sortable-handle {
+    cursor: move;
+    background-color: #f9f9f9;
+    border-left: 4px solid #2563eb;
+}
+
+.mam-sortable-placeholder {
+    background-color: #f1f1f1;
+    border: 1px dashed #ccd0d4;
+}
+
+/* Elementos específicos */
+.mam-fields-table .mam-delete-field {
+    color: #b32d2e;
+    text-decoration: none;
+}
+
+.mam-fields-table .mam-delete-field:hover {
+    color: #dc3232;
+    text-decoration: underline;
+}
+
+/* Modal */
+.mam-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    z-index: 100000;
+    display: none;
+}
+
+.mam-modal-content {
+    position: relative;
+    background-color: #fff;
+    margin: 50px auto;
+    padding: 20px;
+    width: 80%;
+    max-width: 500px;
+    border-radius: 4px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.mam-close-modal {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    font-size: 24px;
+    font-weight: bold;
+    color: #666;
+    cursor: pointer;
+}
+
+.mam-close-modal:hover {
+    color: #000;
+}
+
+.mam-modal h3 {
+    margin-top: 0;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #ccd0d4;
+}
+
+.mam-modal #mam-add-field-form p {
+    margin: 15px 0;
+}
+
+.mam-modal #mam-add-field-form label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 500;
+}
+
+.mam-modal #mam-add-field-form input[type="text"],
+.mam-modal #mam-add-field-form textarea,
+.mam-modal #mam-add-field-form select {
+    width: 100%;
+}
+
+/* Notificaciones */
+.mam-admin-notice {
+    margin: 15px 0;
+}
+
+/* Tooltips */
+.mam-tooltip {
+    position: relative;
+    display: inline-block;
+    cursor: help;
+    margin-left: 5px;
+}
+
+.mam-tooltip:after {
+    content: "?";
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    line-height: 16px;
+    text-align: center;
+    background-color: #f0f0f0;
+    color: #666;
+    border-radius: 50%;
+    font-size: 12px;
+}
+
+.mam-tooltip-text {
+    visibility: hidden;
+    width: 200px;
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    border-radius: 4px;
+    padding: 5px;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%;
+    left: 50%;
+    margin-left: -100px;
+    opacity: 0;
+    transition: opacity 0.3s;
+    font-size: 12px;
+    line-height: 1.4;
+}
+
+.mam-tooltip-text::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #333 transparent transparent transparent;
+}
+
+.mam-tooltip:hover .mam-tooltip-text {
+    visibility: visible;
+    opacity: 1;
+}
+
+/* Elementos específicos de apariencia */
+.mam-appearance-preview {
+    background-color: #f9f9f9;
+    padding: 15px;
+    border: 1px solid #ccd0d4;
+    border-radius: 4px;
+    margin-bottom: 20px;
+}
+
+.mam-appearance-preview h3 {
+    margin-top: 0;
+}
+
+/* Categoría de colores */
+.mam-color-category {
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+.mam-color-category h3 {
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+
+/* Responsive */
+@media screen and (max-width: 782px) {
+    .mam-admin-wrap .form-table th {
+        width: auto;
+        padding: 10px 0;
+    }
+    
+    .mam-fields-table th:nth-child(3),
+    .mam-fields-table td:nth-child(3),
+    .mam-fields-table th:nth-child(4),
+    .mam-fields-table td:nth-child(4) {
+        display: none;
+    }
+    
+    .mam-modal-content {
+        width: 90%;
+        margin: 30px auto;
+    }
+}

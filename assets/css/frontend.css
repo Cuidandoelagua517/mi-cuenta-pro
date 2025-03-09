@@ -1,0 +1,414 @@
+/**
+ * CSS optimizado para Mi Cuenta Mejorado
+ * Versión con mayor especificidad para evitar conflictos
+ */
+
+/* Variables con respaldo para compatibilidad */
+:root {
+    --mam-primary: #2563eb;
+    --mam-primary-hover: #1d4ed8;
+    --mam-secondary: #1e40af;
+    --mam-text: #1f2937;
+    --mam-light-text: #6b7280;
+    --mam-border: #e5e7eb;
+    --mam-bg: #f9fafb;
+    --mam-card-bg: #ffffff;
+    --mam-radius: 0.5rem;
+    --mam-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+/**
+ * Resetear estilos de WooCommerce que causan conflictos
+ * Aumentando la especificidad para sobrescribir
+ */
+body.woocommerce-account form.woocommerce-form .form-row {
+    padding: 0 !important;
+    margin: 0 0 20px !important;
+}
+
+body.woocommerce-account .mam-account-container input[type="text"],
+body.woocommerce-account .mam-account-container input[type="email"],
+body.woocommerce-account .mam-account-container input[type="password"],
+body.woocommerce-account .mam-account-container input[type="tel"],
+body.woocommerce-account .mam-account-container input[type="date"] {
+    width: 100% !important;
+    padding: 10px !important;
+    border: 1px solid #ddd !important;
+    border-radius: 4px !important;
+    background-color: #fff !important;
+    box-sizing: border-box !important;
+    height: auto !important;
+    line-height: normal !important;
+}
+/* Estilo para el contenedor del campo con icono */
+.input-icon-container {
+  position: relative;
+  width: 100%;
+}
+
+/* Estilo para el icono */
+.input-icon {
+  position: absolute;
+  top: 50%;
+  left: 12px;
+  transform: translateY(-50%);
+  color: #666;
+  pointer-events: none; /* Hace que el icono no sea interactivo */
+}
+
+/* Estilo para el campo de entrada */
+.input-with-icon {
+  width: 100%;
+  padding: 10px 10px 10px 40px; /* Padding extra a la izquierda para el icono */
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+/* Contenedor principal */
+body .mam-account-container {
+    max-width: 1200px !important; /* Aumentar de 600px a 900px */
+    margin: 0 auto !important;
+    padding: 20px !important;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+}
+
+/* Tarjeta de formulario */
+body .mam-form-card {
+    background-color: #fff !important;
+    border-radius: 8px !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1) !important;
+    padding: 30px 40px !important; /* Aumentar padding horizontal */
+    margin-bottom: 20px !important;
+}
+
+/* Encabezado de formulario */
+body .mam-form-header {
+    margin-bottom: 30px !important;
+    text-align: center !important;
+}
+
+body .mam-form-title {
+    color: #2563eb !important;
+    font-size: 24px !important;
+    font-weight: 600 !important;
+    margin-top: 0 !important;
+    margin-bottom: 8px !important;
+}
+
+body .mam-form-subtitle {
+    color: #6b7280 !important;
+    font-size: 16px !important;
+    margin-top: 0 !important;
+}
+
+/* Filas de formulario */
+body .mam-form-row {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    margin-bottom: 20px !important;
+}
+/* Para campos de fecha y otros campos solitarios que podrían ser anchos */
+body .mam-form-row.mam-date-row,
+body .mam-form-row.mam-password-row {
+    grid-template-columns: 1fr 1fr !important;
+    gap: 20px !important;
+}
+body .mam-form-row-group {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 20px !important;
+    margin-bottom: 20px !important;
+}
+
+/* Sección obligatoria con borde */
+body .mam-obligatory-section {
+    padding-bottom: 20px !important;
+    border-bottom: 1px solid #e5e7eb !important;
+    margin-bottom: 20px !important;
+}
+
+/* Columnas en el formulario */
+body .mam-form-col {
+    display: flex !important;
+    flex-direction: column !important;
+}
+
+/* Etiquetas de campos */
+body .mam-form-row label,
+body .mam-form-col label {
+    display: block !important;
+    font-weight: 500 !important;
+    margin-bottom: 8px !important;
+    font-size: 14px !important;
+    color: #333 !important;
+}
+
+body .mam-form-row .optional,
+body .mam-form-col .optional {
+    color: #6b7280 !important;
+    font-weight: normal !important;
+    font-size: 13px !important;
+}
+
+body .required {
+    color: #e02b27 !important;
+}
+
+body .mam-field-hint {
+    font-size: 13px !important;
+    color: #6b7280 !important;
+    margin-top: 5px !important;
+    margin-bottom: 0 !important;
+}
+
+
+/* Estilos de campos de entrada con foco */
+body .mam-form-row input:focus,
+body .mam-form-col input:focus {
+    outline: none !important;
+    border-color: #2563eb !important;
+    box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.1) !important;
+}
+
+/* Texto de política de privacidad */
+body .mam-privacy-policy-text {
+    margin-top: 25px !important;
+    margin-bottom: 15px !important;
+}
+
+body .mam-privacy-policy-text p {
+    margin: 0 !important;
+    font-size: 14px !important;
+    line-height: 1.5 !important;
+    color: #333 !important;
+}
+
+body .mam-privacy-policy-text a {
+    color: #2563eb !important;
+    text-decoration: none !important;
+}
+
+/* Casilla de privacidad */
+body .mam-privacy-row {
+    text-align: right !important;
+    margin-top: 0 !important;
+    margin-bottom: 20px !important;
+}
+
+body .mam-privacy-checkbox {
+    display: inline-flex !important;
+    align-items: center !important;
+}
+
+body .mam-privacy-checkbox input[type="checkbox"] {
+    margin-right: 8px !important;
+}
+
+body .mam-privacy-checkbox label {
+    margin-bottom: 0 !important;
+    font-weight: normal !important;
+    display: inline !important;
+    font-size: 14px !important;
+}
+
+/* Botón de envío */
+body .mam-submit-button {
+    width: 100% !important;
+    padding: 12px !important;
+    background-color: #2563eb !important;
+    color: white !important;
+    font-weight: 500 !important;
+    border: none !important;
+    border-radius: 4px !important;
+    cursor: pointer !important;
+    font-size: 16px !important;
+}
+
+body .mam-submit-button:hover {
+    background-color: #1d4ed8 !important;
+}
+
+/* Enlace de inicio de sesión */
+body .mam-form-login-link {
+    text-align: center !important;
+    font-size: 14px !important;
+    margin-top: 15px !important;
+}
+
+body .mam-form-login-link a {
+    color: #2563eb !important;
+    text-decoration: none !important;
+}
+
+body .mam-form-login-link a:hover {
+    text-decoration: underline !important;
+}
+
+/* Estilos del modal */
+body .mam-modal {
+    display: none;
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    background-color: rgba(0, 0, 0, 0.7) !important;
+    z-index: 999999 !important;
+}
+
+body .mam-modal.mam-modal-open {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+}
+
+body .mam-modal-content {
+    position: relative !important;
+    background-color: white !important;
+    margin: 20px !important;
+    padding: 30px !important;
+    width: 100% !important;
+    max-width: 500px !important;
+    border-radius: 8px !important;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3) !important;
+    max-height: 90vh !important;
+    overflow-y: auto !important;
+}
+
+body .mam-modal-close {
+    position: absolute !important;
+    top: 15px !important;
+    right: 15px !important;
+    font-size: 24px !important;
+    font-weight: 700 !important;
+    color: #888 !important;
+    cursor: pointer !important;
+    line-height: 1 !important;
+    z-index: 10 !important;
+}
+
+/* Ocultar elementos de WooCommerce */
+body.woocommerce-account .u-column1,
+body.woocommerce-account .u-column2,
+body.woocommerce-account .u-columns {
+    display: none !important;
+}
+.mam-account-container, 
+.mam-form-card,
+.woocommerce-form {
+    max-width: 90% !important; /* En lugar del valor actual limitado */
+    width: 1200px !important; /* Establece un ancho máximo razonable */
+    margin: 0 auto !important;
+}
+/* Mejorar la distribución de los campos en filas */
+.mam-form-row-group {
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr) !important; /* Cambiar a 3 columnas */
+    gap: 20px !important;
+}
+/* Para campos que ocupan todo el ancho */
+.mam-form-row-full {
+    grid-column: 1 / -1 !important;
+}
+
+/* Hacer que la sección de política de privacidad use todo el ancho */
+.mam-privacy-policy-text {
+    grid-column: 1 / -1 !important;
+}
+/* Ajustes para el contenedor del input con icono */
+.mam-input-icon-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+/* Ajustes para el icono */
+.mam-input-icon {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 1;
+    pointer-events: none; /* Evita que el icono capture clics */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 24px; /* Ancho fijo para el icono */
+    height: 24px; /* Alto fijo para el icono */
+}
+/* Estilo para el campo de entrada */
+.mam-input-icon-wrapper input {
+    width: 100%;
+    padding: 10px 10px 10px 40px !important; /* Aumenta el padding izquierdo para dar espacio al icono */
+    box-sizing: border-box;
+}
+
+/* Estilo para las letras dentro del campo */
+.mam-input-icon-wrapper input::placeholder {
+    color: #9CA3AF;
+}
+/* Estilo para los campos de entrada con iconos */
+.mam-input-icon-wrapper input[type="text"],
+.mam-input-icon-wrapper input[type="email"],
+.mam-input-icon-wrapper input[type="tel"],
+.mam-input-icon-wrapper input[type="password"],
+.mam-input-icon-wrapper input[type="date"] {
+    padding-left: 40px !important; /* Espacio para el icono */
+    width: 100%;
+    box-sizing: border-box;
+}
+/* Ajustes para los campos de entrada con icono */
+.mam-input-icon-wrapper input,
+.mam-input-icon-wrapper select,
+.mam-input-icon-wrapper textarea {
+    width: 100% !important;
+    padding-left: 40px !important; /* Espacio para el icono */
+    padding-right: 12px !important;
+    background-color: #fff !important;
+    border: 1px solid #ddd !important;
+    border-radius: 4px !important;
+    height: auto !important;
+    line-height: normal !important;
+    box-sizing: border-box !important;
+}
+
+/* Enfoque para campos con icono */
+.mam-input-icon-wrapper input:focus,
+.mam-input-icon-wrapper select:focus,
+.mam-input-icon-wrapper textarea:focus {
+    outline: none !important;
+    border-color: #2563eb !important;
+    box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.1) !important;
+}
+/* Ajustar campos específicos para mejor organización */
+@media (min-width: 992px) {
+    /* Puedes ajustar la agrupación de campos específicos si es necesario */
+    .mam-birthday-field {
+        grid-column: 1 / 3 !important; /* Hacer que ocupe 2 columnas */
+    }
+}
+
+/* Mantener diseño responsive para dispositivos móviles */
+@media (max-width: 768px) {
+    .mam-form-row-group {
+        grid-template-columns: 1fr !important; /* Volver a una columna en móviles */
+    }
+}
+/* Responsive para pantallas pequeñas */
+@media (max-width: 768px) {
+    body .mam-form-row-group {
+        grid-template-columns: 1fr !important;
+        gap: 15px !important;
+    }
+    
+    body .mam-privacy-row {
+        text-align: left !important;
+    }
+    
+    body .mam-form-card {
+        padding: 20px !important;
+    }
+}

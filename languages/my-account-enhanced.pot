@@ -1,0 +1,495 @@
+# Copyright (C) 2023 Plugin Author
+# This file is distributed under the GPL v2 or later.
+msgid ""
+msgstr ""
+"Project-Id-Version: Mi Cuenta Mejorado 1.0.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/my-account-enhanced\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2023-01-01T00:00:00+00:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WP-CLI 2.7.1\n"
+"X-Domain: my-account-enhanced\n"
+
+#. Plugin Name of the plugin
+msgid "Mi Cuenta Mejorado"
+msgstr ""
+
+#. Plugin URI of the plugin
+msgid "https://tudominio.com/plugins/mi-cuenta-mejorado"
+msgstr ""
+
+#. Description of the plugin
+msgid "Extiende y personaliza la sección \"Mi Cuenta\" de WooCommerce con una interfaz moderna, mejores prácticas UX, y campos personalizados específicos para empresas."
+msgstr ""
+
+#. Author of the plugin
+msgid "Tu Nombre"
+msgstr ""
+
+#. Author URI of the plugin
+msgid "https://tudominio.com"
+msgstr ""
+
+#: admin/class-admin.php:67
+msgid "Mi Cuenta Mejorado - Configuración"
+msgstr ""
+
+#: admin/class-admin.php:70
+msgid "Campos"
+msgstr ""
+
+#: admin/class-admin.php:71
+msgid "Secciones"
+msgstr ""
+
+#: admin/class-admin.php:72
+msgid "Panel de Marcas"
+msgstr ""
+
+#: admin/class-admin.php:73
+msgid "Apariencia"
+msgstr ""
+
+#: admin/class-admin.php:80
+msgid "Configura los campos que aparecerán en el registro y en la sección \"Mi Cuenta\"."
+msgstr ""
+
+#: admin/class-admin.php:86
+msgid "Campo"
+msgstr ""
+
+#: admin/class-admin.php:87
+msgid "Habilitado"
+msgstr ""
+
+#: admin/class-admin.php:88
+msgid "Obligatorio"
+msgstr ""
+
+#: admin/class-admin.php:89
+msgid "Posición"
+msgstr ""
+
+#: admin/class-admin.php:90
+msgid "Acciones"
+msgstr ""
+
+#: admin/class-admin.php:107
+msgid "Eliminar"
+msgstr ""
+
+#: admin/class-admin.php:117
+msgid "Añadir Campo Personalizado"
+msgstr ""
+
+#: admin/class-admin.php:124
+msgid "Configura las secciones que aparecerán en \"Mi Cuenta\"."
+msgstr ""
+
+#: admin/class-admin.php:134
+msgid "Sección"
+msgstr ""
+
+#: admin/class-admin.php:165
+msgid "Configura el panel lateral de marcas que aparecerá en \"Mi Cuenta\"."
+msgstr ""
+
+#: admin/class-admin.php:171
+msgid "Habilitar panel de marcas"
+msgstr ""
+
+#: admin/class-admin.php:177
+msgid "Mostrar panel lateral de marcas en \"Mi Cuenta\""
+msgstr ""
+
+#: admin/class-admin.php:182
+msgid "Número de columnas"
+msgstr ""
+
+#: admin/class-admin.php:194
+msgid "Tamaño de los logos"
+msgstr ""
+
+#: admin/class-admin.php:198
+msgid "Pequeño"
+msgstr ""
+
+#: admin/class-admin.php:201
+msgid "Mediano"
+msgstr ""
+
+#: admin/class-admin.php:204
+msgid "Grande"
+msgstr ""
+
+#: admin/class-admin.php:214
+msgid "Personaliza la apariencia de la sección \"Mi Cuenta\"."
+msgstr ""
+
+#: admin/class-admin.php:220
+msgid "Color primario"
+msgstr ""
+
+#: admin/class-admin.php:228
+msgid "Color secundario"
+msgstr ""
+
+#: admin/class-admin.php:236
+msgid "Radio de borde"
+msgstr ""
+
+#: admin/class-admin.php:242
+msgid "Ejemplo: 0.5rem, 8px, etc."
+msgstr ""
+
+#: admin/class-admin.php:246
+msgid "Estilo personalizado CSS"
+msgstr ""
+
+#: admin/class-admin.php:250
+msgid "Añade CSS personalizado para modificar la apariencia de \"Mi Cuenta\"."
+msgstr ""
+
+#: admin/class-admin.php:257
+msgid "Guardar Cambios"
+msgstr ""
+
+#: admin/class-admin.php:267
+msgid "Añadir Campo Personalizado"
+msgstr ""
+
+#: admin/class-admin.php:272
+msgid "Etiqueta del campo:"
+msgstr ""
+
+#: admin/class-admin.php:277
+msgid "Tipo de campo:"
+msgstr ""
+
+#: admin/class-admin.php:279
+msgid "Texto"
+msgstr ""
+
+#: admin/class-admin.php:280
+msgid "Email"
+msgstr ""
+
+#: admin/class-admin.php:281
+msgid "Teléfono"
+msgstr ""
+
+#: admin/class-admin.php:282
+msgid "Número"
+msgstr ""
+
+#: admin/class-admin.php:283
+msgid "Fecha"
+msgstr ""
+
+#: admin/class-admin.php:284
+msgid "Área de texto"
+msgstr ""
+
+#: admin/class-admin.php:285
+msgid "Selector"
+msgstr ""
+
+#: admin/class-admin.php:286
+msgid "Casilla de verificación"
+msgstr ""
+
+#: admin/class-admin.php:291
+msgid "Sección:"
+msgstr ""
+
+#: admin/class-admin.php:293
+msgid "Cuenta"
+msgstr ""
+
+#: admin/class-admin.php:294
+msgid "Facturación"
+msgstr ""
+
+#: admin/class-admin.php:295
+msgid "Envío"
+msgstr ""
+
+#: admin/class-admin.php:300
+msgid "Validación:"
+msgstr ""
+
+#: admin/class-admin.php:309
+msgid "Campo obligatorio"
+msgstr ""
+
+#: admin/class-admin.php:315
+msgid "Añadir Campo"
+msgstr ""
+
+#: admin/class-admin.php:328
+msgid "¿Estás seguro de que quieres eliminar este campo?"
+msgstr ""
+
+#: includes/class-brands.php:175
+msgid "Nuestras Marcas"
+msgstr ""
+
+#: includes/class-brands.php:192
+msgid "Filtrar pedidos por marca"
+msgstr ""
+
+#: includes/class-brands.php:246
+msgid "Error de seguridad. Por favor, recarga la página."
+msgstr ""
+
+#: includes/class-brands.php:250
+msgid "Debes iniciar sesión para ver tus pedidos."
+msgstr ""
+
+#: includes/class-brands.php:258
+msgid "Datos de marca inválidos."
+msgstr ""
+
+#: includes/class-brands.php:293
+msgid "No se encontraron pedidos para esta marca."
+msgstr ""
+
+#: includes/class-brands.php:298
+msgid "Se encontraron %d pedidos para esta marca."
+msgstr ""
+
+#: includes/class-company.php:130
+msgid "Mi Empresa"
+msgstr ""
+
+#: includes/class-company.php:153
+msgid "No hay información de empresa disponible."
+msgstr ""
+
+#: templates/company/company.php:13
+msgid "Información de la Empresa"
+msgstr ""
+
+#: templates/company/company.php:17
+msgid "Nombre:"
+msgstr ""
+
+#: templates/company/company.php:23
+msgid "CUIT:"
+msgstr ""
+
+#: templates/company/company.php:29
+msgid "Dirección:"
+msgstr ""
+
+#: templates/company/company.php:45
+msgid "Teléfono:"
+msgstr ""
+
+#: templates/company/company.php:50
+msgid "Email:"
+msgstr ""
+
+#: templates/company/company.php:71
+msgid "Editar información de empresa"
+msgstr ""
+
+#: templates/company/company.php:75
+msgid "Historial de Pedidos de la Empresa"
+msgstr ""
+
+#: templates/company/company.php:95
+msgid "No hay pedidos para esta empresa."
+msgstr ""
+
+#: templates/company/company.php:99
+msgid "Documentos Fiscales"
+msgstr ""
+
+#: templates/company/company.php:109
+msgid "Tipo"
+msgstr ""
+
+#: templates/company/company.php:110
+msgid "Número"
+msgstr ""
+
+#: templates/company/company.php:111
+msgid "Fecha"
+msgstr ""
+
+#: templates/company/company.php:112
+msgid "Total"
+msgstr ""
+
+#: templates/company/company.php:113
+msgid "Acciones"
+msgstr ""
+
+#: templates/company/company.php:122
+msgid "Factura"
+msgstr ""
+
+#: templates/company/company.php:125
+msgid "Recibo"
+msgstr ""
+
+#: templates/company/company.php:137
+msgid "Descargar"
+msgstr ""
+
+#: templates/company/company.php:147
+msgid "No hay documentos fiscales disponibles."
+msgstr ""
+
+#: templates/dashboard/dashboard.php:13
+msgid "Hola, %s"
+msgstr ""
+
+#: templates/dashboard/dashboard.php:14
+msgid "Bienvenido a tu cuenta. Aquí puedes gestionar tus pedidos, datos personales y más."
+msgstr ""
+
+#: templates/dashboard/dashboard.php:20
+msgid "Información Personal"
+msgstr ""
+
+#: templates/dashboard/dashboard.php:24
+msgid "Nombre:"
+msgstr ""
+
+#: templates/dashboard/dashboard.php:29
+msgid "Email:"
+msgstr ""
+
+#: templates/dashboard/dashboard.php:35
+msgid "Teléfono:"
+msgstr ""
+
+#: templates/dashboard/dashboard.php:41
+msgid "Fecha de cumpleaños:"
+msgstr ""
+
+#: templates/dashboard/dashboard.php:61
+msgid "Editar información"
+msgstr ""
+
+#: templates/dashboard/dashboard.php:68
+msgid "Información de Empresa"
+msgstr ""
+
+#: templates/dashboard/dashboard.php:72
+msgid "Empresa:"
+msgstr ""
+
+#: templates/dashboard/dashboard.php:78
+msgid "CUIT:"
+msgstr ""
+
+#: templates/dashboard/dashboard.php:97
+msgid "Ver información de empresa"
+msgstr ""
+
+#: templates/dashboard/dashboard.php:104
+msgid "Pedidos Recientes"
+msgstr ""
+
+#: templates/dashboard/dashboard.php:110
+msgid "Pedido"
+msgstr ""
+
+#: templates/dashboard/dashboard.php:111
+msgid "Fecha"
+msgstr ""
+
+#: templates/dashboard/dashboard.php:112
+msgid "Estado"
+msgstr ""
+
+#: templates/dashboard/dashboard.php:113
+msgid "Total"
+msgstr ""
+
+#: templates/dashboard/dashboard.php:128
+msgid "Ver"
+msgstr ""
+
+#: templates/dashboard/dashboard.php:135
+msgid "No hay pedidos recientes."
+msgstr ""
+
+#: templates/dashboard/dashboard.php:139
+msgid "Ver todos los pedidos"
+msgstr ""
+
+#: templates/dashboard/dashboard.php:146
+msgid "Mis Direcciones"
+msgstr ""
+
+#: templates/dashboard/dashboard.php:150
+msgid "Dirección de Facturación"
+msgstr ""
+
+#: templates/dashboard/dashboard.php:156
+msgid "No has configurado esta dirección aún."
+msgstr ""
+
+#: templates/dashboard/dashboard.php:162
+msgid "Dirección de Envío"
+msgstr ""
+
+#: templates/dashboard/dashboard.php:174
+msgid "Gestionar direcciones"
+msgstr ""
+
+#: includes/class-fields.php:30
+msgid "Nombre de empresa"
+msgstr ""
+
+#: includes/class-fields.php:40
+msgid "CUIT"
+msgstr ""
+
+#: includes/class-fields.php:50
+msgid "Nombre"
+msgstr ""
+
+#: includes/class-fields.php:60
+msgid "Apellido"
+msgstr ""
+
+#: includes/class-fields.php:70
+msgid "Teléfono"
+msgstr ""
+
+#: includes/class-fields.php:80
+msgid "Fecha de cumpleaños"
+msgstr ""
+
+#: includes/class-registration.php:91
+msgid "El campo %s es obligatorio."
+msgstr ""
+
+#: includes/class-registration.php:98
+msgid "El formato del campo %s no es válido."
+msgstr ""
+
+#: includes/class-registration.php:141
+msgid "Ya existe una cuenta registrada con esta dirección de correo electrónico. Por favor, inicia sesión."
+msgstr ""
+
+#: includes/class-registration.php:144
+msgid "Por favor, ingresa una contraseña para tu cuenta."
+msgstr ""
+
+#: includes/class-registration.php:147
+msgid "Por favor, proporciona una dirección de correo electrónico válida."
+msgstr ""
+
+#: my-account-enhanced.php:48
+msgid "Mi Cuenta Mejorado requiere que WooCommerce esté instalado y activado."
+msgstr ""
