@@ -63,14 +63,16 @@ $menu_icons = array(
 ?>
 
 <div class="mam-dashboard-container">
+    <!-- Sidebar de navegación -->
+    <aside class="mam-sidebar">
+        <!-- Botón de TIENDA ahora está dentro del sidebar como primer elemento -->
+        <div class="mam-sidebar-logo">
+            <a href="<?php echo esc_url(home_url('/shop')); ?>" class="tienda-btn">
+                TIENDA
+            </a>
+        </div>
         
-<div class="tienda-container">
-    <a href="<?php echo esc_url(home_url('/shop')); ?>" class="tienda-btn">
-        TIENDA
-    </a>
-</div>
-    
-    <ul class="mam-nav-menu">
+        <ul class="mam-nav-menu">
             <?php foreach ($menu_items as $endpoint => $label) : ?>
                 <li class="<?php echo $endpoint === $current_endpoint ? 'active' : ''; ?>">
                     <a href="<?php echo esc_url(wc_get_account_endpoint_url($endpoint)); ?>">
