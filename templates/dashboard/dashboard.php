@@ -9,6 +9,41 @@ if (!defined('WPINC')) {
     die;
 }
 
+// INICIO: Asegurar que todas las variables necesarias estén definidas
+if (!isset($user) || !is_object($user)) {
+    $user = wp_get_current_user();
+}
+
+if (!isset($user_id) || empty($user_id)) {
+    $user_id = get_current_user_id();
+}
+
+if (!isset($user_info) || !is_array($user_info)) {
+    $user_info = array(
+        'first_name' => get_user_meta($user_id, 'billing_first_name', true),
+        'last_name' => get_user_meta($user_id, 'billing_last_name', true),
+        'phone' => get_user_meta($user_id, 'billing_phone', true),
+        'birthday' => get_user_meta($user_id, 'customer_birthday', true)
+    );
+}
+
+if (!isset($recent_orders)) {
+    // Obtener pedidos recientes limitados a 5
+    $recent_orders = wc_get_orders(array(
+        'customer' => $user_id,
+        'limit' => 5,
+        'orderby' => 'date',
+        'order' => 'DESC'
+    ));
+}
+
+if (!isset($company_data)) {
+    $company_data = array(
+        'name' => get_user_meta($user_id, 'billing_company', true),
+        'cuit' => get_user_meta($user_id, 'billing_cuit', true)
+    );
+}
+
 // Asegurarse de que tenemos el objeto de usuario correcto
 if (!$user || !is_object($user) || !isset($user->user_email)) {
     $user = wp_get_current_user();
