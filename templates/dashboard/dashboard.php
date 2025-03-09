@@ -8,7 +8,7 @@
 if (!defined('WPINC')) {
     die;
 }
-<?php
+
 // Reemplaza el código actual de iniciales con este:
 $user_initials = '';
 
