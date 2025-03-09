@@ -25,6 +25,68 @@
     this.initModernized();
     this.initDashboardNavigation(); // Añadir esta línea
 },
+        /**
+ * Manejo de navegación AJAX en Mi Cuenta
+ */
+function initAccountNavigation() {
+    // Selector preciso para todos los enlaces de navegación
+    $(document).on('click', '.mam-nav-menu a, .woocommerce-MyAccount-navigation a', function(e) {
+        // No interceptar enlaces de logout
+        if ($(this).parent().hasClass('woocommerce-MyAccount-navigation-link--customer-logout') || 
+            $(this).attr('href').indexOf('customer-logout') > -1) {
+            return true; // Permitir comportamiento normal
+        }
+        
+        e.preventDefault();
+        var url = $(this).attr('href');
+        
+        // Mostrar indicador de carga
+        if ($('.mam-ajax-loader').length === 0) {
+            $('body').append('<div class="mam-ajax-loader"><div class="mam-loader-spinner"></div></div>');
+        }
+        $('.mam-ajax-loader').show();
+        
+        // Marcar elemento activo
+        $('.mam-nav-menu li, .woocommerce-MyAccount-navigation li').removeClass('active is-active');
+        $(this).closest('li').addClass('active is-active');
+        
+        // Cargar contenido mediante AJAX
+        $.ajax({
+            url: url,
+            type: 'GET',
+            dataType: 'html',
+            success: function(response) {
+                // Ocultar loader
+                $('.mam-ajax-loader').hide();
+                
+                // Extraer contenido principal
+                var $html = $(response);
+                var $content = $html.find('.woocommerce-MyAccount-content');
+                
+                if ($content.length === 0) {
+                    $content = $html.find('.mam-main-content');
+                }
+                
+                // Actualizar contenido
+                if ($content.length > 0) {
+                    $('.mam-main-content, .woocommerce-MyAccount-content').html($content.html());
+                    
+                    // Actualizar URL sin recargar
+                    if (window.history && window.history.pushState) {
+                        window.history.pushState(null, null, url);
+                    }
+                } else {
+                    // Si falla la extracción, redirigir
+                    window.location.href = url;
+                }
+            },
+            error: function() {
+                $('.mam-ajax-loader').hide();
+                window.location.href = url;
+            }
+        });
+    });
+}
         initDashboardNavigation: function() {
             console.log('MAM Dashboard Navigation initialized'); // Debug
             
