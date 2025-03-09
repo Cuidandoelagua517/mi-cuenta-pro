@@ -25,9 +25,14 @@ public function add_custom_inline_styles() {
             .woocommerce-MyAccount-navigation { display: none !important; }
             .woocommerce-MyAccount-content { width: 100% !important; float: none !important; padding: 0 !important; margin: 0 !important; }
             .woocommerce-account .woocommerce { width: 100% !important; max-width: 100% !important; padding: 0 !important; margin: 0 !important; }
+            
+            /* Estilos críticos para el dashboard moderno */
+            .mam-dashboard { display: block !important; }
+            .mam-dashboard-card { background-color: #fff; border-radius: 0.5rem; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05); padding: 20px; border: 1px solid #e5e7eb; margin-bottom: 20px; }
+            .mam-dashboard-content { display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 20px; }
         </style>';
     }
-}  
+}
  
     public function render_custom_dashboard() {
         // Eliminar la acción predeterminada de WooCommerce
