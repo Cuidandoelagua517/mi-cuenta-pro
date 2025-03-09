@@ -7,6 +7,12 @@
     /**
      * Objeto principal del plugin
      */
+(function($) {
+    'use strict';
+    
+    /**
+     * Objeto principal del plugin
+     */
     var MAM = {
         /**
          * Inicializar
@@ -16,6 +22,34 @@
             this.initFormValidation();
             this.initEnhancedFields();
             this.initMobileMenu();
+            this.initModernized();
+        },
+        
+        // Añadir esta nueva función
+        initModernized: function() {
+            // Función para manejar el toggle del menú en móvil
+            function setupMobileMenu() {
+                if ($(window).width() <= 768) {
+                    $('.mam-sidebar-toggle').show();
+                    $('.mam-account-nav').removeClass('is-open');
+                } else {
+                    $('.mam-sidebar-toggle').hide();
+                    $('.mam-account-nav').addClass('is-open');
+                }
+            }
+            
+            // Inicializar
+            setupMobileMenu();
+            
+            // Detectar cambio de tamaño de ventana
+            $(window).resize(function() {
+                setupMobileMenu();
+            });
+            
+            // Toggle de menú en móvil
+            $(document).on('click', '.mam-sidebar-toggle', function() {
+                $('.mam-account-nav').toggleClass('is-open');
+            });
         },
         
         /**
