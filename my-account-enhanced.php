@@ -213,7 +213,6 @@ function mam_enqueue_frontend_assets() {
             'ordersUrl' => function_exists('wc_get_endpoint_url') ? wc_get_endpoint_url('orders') : ''
         ));
     }
-}
 
 /**
  * Cargar script de validación
