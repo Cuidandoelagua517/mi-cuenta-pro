@@ -5,20 +5,50 @@ class MAM_Dashboard {
     
 // Al inicio del constructor de MAM_Dashboard
 public function __construct() {
-    // Aumentar la prioridad a un número más bajo para que se ejecute antes
+    // Eliminar acción nativa de WooCommerce - MAYOR PRIORIDAD
     remove_action('woocommerce_account_dashboard', 'woocommerce_account_dashboard');
-    add_action('woocommerce_account_dashboard', array($this, 'render_custom_dashboard'), 1);
     
-    // Mantener los hooks existentes
+    // Agregar nuestro dashboard personalizado
+    add_action('woocommerce_account_dashboard', array($this, 'render_custom_dashboard'), 5);
+    
+    // NO modificar los endpoints estándar de WooCommerce
+    // Solo personalizar los elementos del menú
     add_filter('woocommerce_account_menu_items', array($this, 'customize_account_menu_items'), 10, 1);
     
-    // Añadir estas líneas nuevas para asegurarnos de ocultar la navegación nativa
-    add_action('wp_head', array($this, 'add_custom_inline_styles'));
+    // Añadir clase CSS para identificar elementos activos
+    add_filter('woocommerce_account_menu_item_classes', array($this, 'add_active_class_to_menu_item'), 10, 2);
+    
+    // Asegurar que los scripts se carguen en todas las páginas de mi cuenta
+    add_action('wp_enqueue_scripts', array($this, 'ensure_scripts_loaded'), 20);
+    
+    // Añadir clases específicas al body
     add_filter('body_class', array($this, 'add_body_class'));
-     // Registrar endpoints
-    add_action('init', array($this, 'register_endpoints'), 10);
-        // Añadir soporte para endpoints vía AJAX
-    add_action('template_redirect', array($this, 'maybe_handle_ajax_endpoints'), 5);
+}
+
+// Añadir este nuevo método
+public function ensure_scripts_loaded() {
+    if (is_account_page()) {
+        // Forzar carga de scripts en todas las páginas de Mi Cuenta
+        wp_enqueue_script('mam-frontend-scripts');
+        wp_enqueue_style('mam-frontend-styles');
+        wp_enqueue_style('mam-dashboard-styles');
+    }
+}
+    // Añadir este nuevo método
+public function add_active_class_to_menu_item($classes, $endpoint) {
+    global $wp;
+    
+    $current = isset($wp->query_vars[$endpoint]);
+    
+    if ($endpoint === 'dashboard' && (empty($wp->query_vars) || isset($wp->query_vars['page']))) {
+        $current = true;
+    }
+    
+    if ($current) {
+        $classes[] = 'is-active';
+    }
+    
+    return $classes;
 }
 /**
  * Registrar endpoints de WooCommerce
