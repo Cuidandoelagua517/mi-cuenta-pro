@@ -145,48 +145,32 @@ function mam_override_myaccount_template($template, $template_name) {
 /**
  * Cargar scripts y estilos del frontend
  */
+// En my-account-enhanced.php, dentro de la función mam_enqueue_frontend_assets()
 function mam_enqueue_frontend_assets() {
     // Verificar que la función existe (después de que WooCommerce está cargado)
     if (!function_exists('is_account_page')) {
         return;
     }
     
-    // Cargar estilos comunes en páginas de Mi Cuenta
+    // Cargar estilos modernizados en páginas de Mi Cuenta
     if (is_account_page()) {
         wp_enqueue_style(
-            'mam-frontend-styles',
+            'mam-modernized-styles',
             MAM_PLUGIN_URL . 'assets/css/frontend.css',
             array(),
-            MAM_VERSION
+            MAM_VERSION . '.' . time() // Añadir timestamp para evitar caché
         );
         
-        // Si estamos en la página de login/register
-        if (!is_user_logged_in()) {
-            wp_enqueue_style(
-                'mam-account-forms-styles',
-                MAM_PLUGIN_URL . 'assets/css/account-forms.css',
-                array('mam-frontend-styles'),
-                MAM_VERSION
-            );
-        } 
-        // Si estamos en el dashboard o cualquier otra sección de mi cuenta
-        else {
-            wp_enqueue_style(
-                'mam-dashboard-styles',
-                MAM_PLUGIN_URL . 'assets/css/dashboard.css',
-                array('mam-frontend-styles'),
-                MAM_VERSION
-            );
-        }
-        
-        // Scripts comunes
+        // Añadir jQuery y script para el toggle del menú en móvil
         wp_enqueue_script(
-            'mam-frontend-scripts',
+            'mam-modernized-scripts',
             MAM_PLUGIN_URL . 'assets/js/frontend.js',
             array('jquery'),
-            MAM_VERSION,
+            MAM_VERSION . '.' . time(), // Añadir timestamp para evitar caché
             true
         );
+    }
+}
         
         // Localize script
         wp_localize_script('mam-frontend-scripts', 'MAM_Data', array(
