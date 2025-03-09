@@ -55,6 +55,8 @@ body.woocommerce-account .woocommerce,
 
 /* Sidebar de navegación */
 .mam-sidebar {
+   display: flex;
+  flex-direction: column;
   width: var(--mam-menu-width);
   min-width: var(--mam-menu-width);
   background-color: #ffffff;
@@ -65,6 +67,17 @@ body.woocommerce-account .woocommerce,
   height: 100vh;
   overflow-y: auto;
   z-index: 10;
+}
+@media (max-width: 768px) {
+  .mam-user-avatar {
+    position: relative; /* Cambiar de absolute a relative en móvil */
+    width: 100%;
+    justify-content: center;
+  }
+  
+  .mam-avatar-circle {
+    margin: 0 auto;
+  }
 }
 @media (max-width: 768px) {
     .mam-sidebar {
@@ -214,20 +227,13 @@ body.woocommerce-account .woocommerce,
 
 /* Añadir o modificar este estilo */
 .mam-avatar-circle {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background-color: #e2e8f0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 18px;
-  font-weight: 600;
-  color: #4a5568; /* Color de texto más oscuro para mayor contraste */
- margin-right: 0; /* Quitar el margen que se usaba para separarlo del texto */
-  overflow: hidden;
-  text-align: center;
-  line-height: 1;
+ margin: 0 auto; /* Centrado automático izquierda/derecha */
+  position: relative; /* Asegura que la posición sea relativa para cualquier ajuste adicional */
+  left: 0; /* Elimina cualquier desplazamiento a la izquierda */
+  right: 0; /* Elimina cualquier desplazamiento a la derecha */
+  /* Mantener o aumentar el tamaño para mayor visibilidad */
+  width: 45px;
+  height: 45px;
 }
 
 .mam-user-info {
@@ -520,7 +526,7 @@ body.woocommerce-account .woocommerce,
   }
   
 .mam-user-avatar {
-  display: flex;
+ display: flex;
   justify-content: center; /* Centra horizontalmente */
   align-items: center; /* Centra verticalmente */
   padding: 20px;
@@ -531,6 +537,7 @@ body.woocommerce-account .woocommerce,
   left: 0;
   width: 100%;
   background-color: #ffffff;
+  box-sizing: border-box; /* Asegura que el padding no afecte el ancho total */
 }
 
 
