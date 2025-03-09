@@ -3,19 +3,20 @@
 // En includes/class-dashboard.php
 class MAM_Dashboard {
     
-    public function __construct() {
-        // Aumentar la prioridad a un número más bajo para que se ejecute antes
+// Al inicio del constructor de MAM_Dashboard
+public function __construct() {
+    // Aumentar la prioridad a un número más bajo para que se ejecute antes
     remove_action('woocommerce_account_dashboard', 'woocommerce_account_dashboard');
     add_action('woocommerce_account_dashboard', array($this, 'render_custom_dashboard'), 1);
-        // Mantener los hooks existentes
-        add_action('woocommerce_account_dashboard', array($this, 'render_custom_dashboard'), 5);
-        add_filter('woocommerce_account_menu_items', array($this, 'customize_account_menu_items'), 10, 1);
-        
-        // Añadir estas líneas nuevas para asegurarnos de ocultar la navegación nativa
-        add_action('wp_head', array($this, 'add_custom_inline_styles'));
-        add_filter('body_class', array($this, 'add_body_class'));
-    }
     
+    // Mantener los hooks existentes
+    add_filter('woocommerce_account_menu_items', array($this, 'customize_account_menu_items'), 10, 1);
+    
+    // Añadir estas líneas nuevas para asegurarnos de ocultar la navegación nativa
+    add_action('wp_head', array($this, 'add_custom_inline_styles'));
+    add_filter('body_class', array($this, 'add_body_class'));
+}
+
 /**
  * Añadir estilos inline críticos para asegurar que nuestra interfaz tome prioridad
  */
@@ -27,9 +28,10 @@ public function add_custom_inline_styles() {
             .woocommerce-account .woocommerce { width: 100% !important; max-width: 100% !important; padding: 0 !important; margin: 0 !important; }
             
             /* Estilos críticos para el dashboard moderno */
-            .mam-dashboard { display: block !important; }
-            .mam-dashboard-card { background-color: #fff; border-radius: 0.5rem; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05); padding: 20px; border: 1px solid #e5e7eb; margin-bottom: 20px; }
-            .mam-dashboard-content { display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 20px; }
+            .mam-dashboard { display: block !important; visibility: visible !important; }
+            .mam-dashboard-container { display: flex !important; visibility: visible !important; }
+            .mam-sidebar { width: 250px; position: sticky; top: 0; height: 100vh; background: white; }
+            .mam-main-content { flex: 1; padding: 30px; }
         </style>';
     }
 }
