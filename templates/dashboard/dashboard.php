@@ -63,18 +63,14 @@ $menu_icons = array(
 ?>
 
 <div class="mam-dashboard-container">
-    <!-- Panel lateral de navegación -->
-    <aside class="mam-sidebar">
-        <button class="mam-sidebar-toggle" aria-label="Toggle menu">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
-        </button>
         
-        <div class="mam-sidebar-logo">
-<div class="d-flex align-items-center">
-    <a href="/shop" class="tienda-btn mr-3">Ver Productos</a>
+<div class="mam-sidebar-logo">
+            <a href="<?php echo esc_url(home_url('/shop')); ?>" class="mam-shop-button">
+                Ver Productos
+            </a>
         </div>
-        
-        <ul class="mam-nav-menu">
+    
+    <ul class="mam-nav-menu">
             <?php foreach ($menu_items as $endpoint => $label) : ?>
                 <li class="<?php echo $endpoint === $current_endpoint ? 'active' : ''; ?>">
                     <a href="<?php echo esc_url(wc_get_account_endpoint_url($endpoint)); ?>">
