@@ -34,33 +34,31 @@ body.woocommerce-account .woocommerce,
   display: block !important;
   opacity: 1 !important;
 }
-/* Estilos para el botón "Ver Productos" */
-.tienda-btn {
-    display: inline-block;
-    background-color: #4361ee;
+/* Estilos para el botón Ver Productos */
+.mam-shop-button {
+    display: block;
+    width: 80%;
+    margin: 0 auto;
+    background-color: var(--mam-primary);
     color: white;
-    font-family: Arial, sans-serif;
-    font-size: 14px;
-    font-weight: bold;
     text-align: center;
-    text-decoration: none;
-    padding: 10px 20px;
+    padding: 12px 20px;
     border-radius: 4px;
+    font-weight: 600;
+    font-size: 14px;
+    text-decoration: none;
     transition: background-color 0.3s ease;
 }
 
-.tienda-btn:hover {
-    background-color: #3a56d4;
+.mam-shop-button:hover {
+    background-color: var(--mam-primary-hover);
     color: white;
     text-decoration: none;
 }
 
-/* Ocultar el botón del menú hamburguesa si es necesario */
-.navbar-toggler {
-    display: none;
-}
-.mam-dashboard-container {
-  display: flex !important;
+/* Ocultar el botón del menú hamburguesa */
+.mam-sidebar-toggle {
+    display: none !important;
 }
 /* Layout principal */
 .mam-dashboard-container {
