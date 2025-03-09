@@ -162,13 +162,16 @@ add_filter('wc_get_template', 'mam_override_dashboard_template', 10, 5);
 /**
  * Cargar scripts y estilos del frontend
  */
+// Dentro de la función mam_enqueue_frontend_assets() en my-account-enhanced.php
+// Busca la sección que carga los estilos del dashboard y modifícala así:
+
 function mam_enqueue_frontend_assets() {
     if (!function_exists('is_account_page')) {
         return;
     }
     
     if (is_account_page()) {
-        // Cargar todos los estilos necesarios
+        // Cargar estilos modernizados manteniendo los mismos nombres de archivo
         wp_enqueue_style(
             'mam-modernized-styles',
             MAM_PLUGIN_URL . 'assets/css/frontend.css',
@@ -176,7 +179,7 @@ function mam_enqueue_frontend_assets() {
             MAM_VERSION
         );
         
-        // Añadir los estilos del dashboard que faltan
+        // Ahora el dashboard.css tiene el diseño moderno
         wp_enqueue_style(
             'mam-dashboard-styles',
             MAM_PLUGIN_URL . 'assets/css/dashboard.css',
@@ -184,7 +187,7 @@ function mam_enqueue_frontend_assets() {
             MAM_VERSION
         );
         
-        // Añadir los estilos de formularios
+        // Añadir estilos de formularios
         wp_enqueue_style(
             'mam-account-forms',
             MAM_PLUGIN_URL . 'assets/css/account-forms.css',
@@ -198,10 +201,22 @@ function mam_enqueue_frontend_assets() {
                 .woocommerce-MyAccount-navigation { display: none !important; }
                 .woocommerce-MyAccount-content { width: 100% !important; float: none !important; padding: 0 !important; margin: 0 !important; }
                 .woocommerce-account .woocommerce { width: 100% !important; max-width: 100% !important; padding: 0 !important; margin: 0 !important; }
+                
+                /* Prevenir flash de contenido no estilizado */
+                .woocommerce-account .woocommerce { visibility: hidden; }
+                .woocommerce-account.mam-modernized-account .woocommerce { visibility: visible; }
+                
+                /* Estilos básicos del dashboard modernizado */
+                .mam-dashboard-container { display: flex; }
+                .mam-sidebar { width: 250px; position: sticky; top: 0; height: 100vh; background: white; }
+                .mam-main-content { flex: 1; padding: 30px; }
             </style>';
+            
+            // Script para marcar que los estilos están cargados
+            echo '<script>document.body.classList.add("mam-modernized-account-loaded");</script>';
         }, 999);
         
-        // Cargar script frontend 
+        // Cargar script frontend
         wp_enqueue_script(
             'mam-frontend-scripts',
             MAM_PLUGIN_URL . 'assets/js/frontend.js',
@@ -210,7 +225,7 @@ function mam_enqueue_frontend_assets() {
             true
         );
         
-        // Localizar script - ESTO DEBE ESTAR DENTRO DE LA CONDICIÓN is_account_page()
+        // Localizar script
         wp_localize_script('mam-frontend-scripts', 'MAM_Data', array(
             'ajaxurl' => admin_url('admin-ajax.php'),
             'security' => wp_create_nonce('mam-frontend-nonce'),
