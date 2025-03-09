@@ -28,7 +28,7 @@ add_action('wp_head', array($this, 'add_custom_inline_styles'), 100);
     // Añadir clases específicas al body
     add_filter('body_class', array($this, 'add_body_class'));
 }, 1);
-
+}
 // Añadir este nuevo método
 public function ensure_scripts_loaded() {
     if (is_account_page()) {
