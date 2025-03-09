@@ -90,7 +90,7 @@ function mam_init() {
     // Cargar archivos de administración
     if (is_admin()) {
         mam_require_if_exists(MAM_PLUGIN_DIR . 'admin/class-admin.php');
-        mam_require_if_exists(MAM_PLUGIN_DIR . 'admin/class-field-manager.php');
+        mam_require_if_exists(MAM_PLUGIN_DIR . 'admin/class-fields-manager.php');
         mam_require_if_exists(MAM_PLUGIN_DIR . 'admin/class-settings.php');
     }
     
@@ -128,6 +128,7 @@ function mam_init() {
     add_filter('woocommerce_locate_template', 'mam_override_myaccount_template', 10, 2);
 }
 add_action('plugins_loaded', 'mam_init');
+
 // Reemplaza esta función en my-account-enhanced.php
 function mam_override_dashboard_template($located, $template_name, $args, $template_path, $default_path) {
     if ($template_name === 'myaccount/dashboard.php') {
@@ -139,6 +140,7 @@ function mam_override_dashboard_template($located, $template_name, $args, $templ
     return $located;
 }
 add_filter('wc_get_template', 'mam_override_dashboard_template', 10, 5);
+
 /**
  * Override del template de Mi Cuenta
  */
@@ -213,6 +215,7 @@ function mam_enqueue_frontend_assets() {
             'ordersUrl' => function_exists('wc_get_endpoint_url') ? wc_get_endpoint_url('orders') : ''
         ));
     }
+}
 
 /**
  * Cargar script de validación
@@ -241,6 +244,7 @@ function enqueue_validation_scripts() {
     }
 }
 add_action('wp_enqueue_scripts', 'enqueue_validation_scripts');
+
 /**
  * Cargar scripts y estilos de administración
  */
