@@ -156,20 +156,31 @@ elseif (function_exists('tinv_get_wishlist_products')) {
 <!-- Asegúrate de que los elementos de navegación tengan clases consistentes -->
 
 <ul class="mam-nav-menu">
-    <?php foreach ($menu_items as $endpoint => $label) : 
+    <?php 
+    // Obtener todos los items del menú estándar de WooCommerce
+    $menu_items = wc_get_account_menu_items();
+    
+    // Determinar endpoint actual
+    $current_endpoint = WC()->query->get_current_endpoint();
+    if (empty($current_endpoint)) {
+        $current_endpoint = 'dashboard';
+    }
+    
+    // Generar enlaces de navegación
+    foreach ($menu_items as $endpoint => $label) : 
         // Determinar si este elemento está activo
         $is_active = ($endpoint === $current_endpoint) ? 'active' : '';
         
-        // Asignar el icono correcto según el endpoint
+        // Obtener icono para el endpoint
         $icon = isset($menu_icons[$endpoint]) ? $menu_icons[$endpoint] : '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle></svg>';
         
-        // Importante: Generar la URL correcta para cada endpoint de WooCommerce
+        // Generar URL correcta para el endpoint
         $endpoint_url = $endpoint === 'dashboard' 
             ? wc_get_page_permalink('myaccount') 
             : wc_get_account_endpoint_url($endpoint);
     ?>
     <li class="<?php echo $is_active; ?> mam-nav-item mam-nav-item-<?php echo esc_attr($endpoint); ?>">
-        <a href="<?php echo esc_url($endpoint_url); ?>" class="mam-nav-link" data-endpoint="<?php echo esc_attr($endpoint); ?>">
+        <a href="<?php echo esc_url($endpoint_url); ?>" class="mam-nav-link">
             <?php echo $icon; ?>
             <span class="mam-nav-text"><?php echo esc_html($label); ?></span>
         </a>
