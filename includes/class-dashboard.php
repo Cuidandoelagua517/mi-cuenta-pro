@@ -1,3 +1,4 @@
+
 <?php
 // En includes/class-dashboard.php
 class MAM_Dashboard {
@@ -347,4 +348,5 @@ public function add_custom_inline_styles() {
     }
     
     return $classes;
+}
 }
