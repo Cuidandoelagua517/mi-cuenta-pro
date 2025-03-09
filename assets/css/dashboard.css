@@ -212,9 +212,10 @@ body.woocommerce-account .woocommerce,
   background-color: #ffffff;
 }
 
+/* Añadir o modificar este estilo */
 .mam-avatar-circle {
-  width: 50px;
-  height: 50px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   background-color: #e2e8f0;
   display: flex;
@@ -222,10 +223,11 @@ body.woocommerce-account .woocommerce,
   justify-content: center;
   font-size: 18px;
   font-weight: 600;
-  color: var(--mam-secondary);
+  color: #4a5568; /* Color de texto más oscuro para mayor contraste */
   margin-right: 15px;
   overflow: hidden;
   text-align: center;
+  line-height: 1;
 }
 
 .mam-user-info {
