@@ -17,6 +17,8 @@ public function __construct() {
     add_filter('body_class', array($this, 'add_body_class'));
      // Registrar endpoints
     add_action('init', array($this, 'register_endpoints'), 10);
+        // Añadir soporte para endpoints vía AJAX
+    add_action('template_redirect', array($this, 'maybe_handle_ajax_endpoints'), 5);
 }
 /**
  * Registrar endpoints de WooCommerce
@@ -123,13 +125,7 @@ public function maybe_handle_ajax_endpoints() {
     });
 }
 
-// Añadir en el constructor:
-public function __construct() {
-    // Código existente...
-    
-    // Añadir soporte para endpoints vía AJAX
-    add_action('template_redirect', array($this, 'maybe_handle_ajax_endpoints'), 5);
-}
+
     /**
      * Renderizar dashboard predeterminado
      */
