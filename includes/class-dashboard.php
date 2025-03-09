@@ -90,38 +90,37 @@ public function add_custom_inline_styles() {
     }
 }
  
-    public function render_custom_dashboard() {
-        // Eliminar la acción predeterminada de WooCommerce
-        remove_action('woocommerce_account_dashboard', 'woocommerce_account_dashboard');
-        
-        // Comprobar si existe plantilla personalizada en el tema
-        $template = locate_template(array(
-            'my-account-enhanced/dashboard.php',
-            'woocommerce/my-account-enhanced/dashboard.php'
-        ));
-        
-        // Si no existe, usar plantilla predeterminada del plugin
-        if (!$template) {
-            $template = MAM_PLUGIN_DIR . 'templates/dashboard/dashboard.php';
-        }
-        
-        // Si existe, incluir la plantilla
-        if (file_exists($template)) {
-            // Obtener datos para la plantilla
-            $user_id = get_current_user_id();
-            $user = get_userdata($user_id);
-            $user_info = $this->get_user_info($user_id);
-            $recent_orders = $this->get_recent_orders($user_id);
-            $company_data = $this->get_company_data($user_id);
-            
-            include $template;
-        } else {
-            // Si no existe plantilla, mostrar dashboard predeterminado
-            $this->render_default_dashboard();
-        }
+ public function render_custom_dashboard() {
+    // Eliminar la acción predeterminada de WooCommerce
+    remove_action('woocommerce_account_dashboard', 'woocommerce_account_dashboard');
+    
+    // Obtener datos para la plantilla
+    $user_id = get_current_user_id();
+    $user = get_userdata($user_id);
+    $user_info = $this->get_user_info($user_id);
+    $recent_orders = $this->get_recent_orders($user_id);
+    $company_data = $this->get_company_data($user_id);
+    
+    // Comprobar si existe plantilla personalizada en el tema
+    $template = locate_template(array(
+        'my-account-enhanced/dashboard.php',
+        'woocommerce/my-account-enhanced/dashboard.php'
+    ));
+    
+    // Si no existe, usar plantilla predeterminada del plugin
+    if (!$template) {
+        $template = MAM_PLUGIN_DIR . 'templates/dashboard/dashboard.php';
     }
-    // En includes/class-dashboard.php
-// Añade esta función en la clase MAM_Dashboard:
+    
+    // Si existe, incluir la plantilla (con todas las variables necesarias)
+    if (file_exists($template)) {
+        // Asegurarnos de que todas las variables estén disponibles para la plantilla
+        include $template;
+    } else {
+        // Si no existe plantilla, mostrar dashboard predeterminado
+        $this->render_default_dashboard();
+    }
+}
 
 public function maybe_handle_ajax_endpoints() {
     // Verificar si es una petición AJAX
