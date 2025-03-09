@@ -88,7 +88,48 @@ public function add_custom_inline_styles() {
             $this->render_default_dashboard();
         }
     }
+    // En includes/class-dashboard.php
+// Añade esta función en la clase MAM_Dashboard:
+
+public function maybe_handle_ajax_endpoints() {
+    // Verificar si es una petición AJAX
+    if (defined('DOING_AJAX') && DOING_AJAX) {
+        return;
+    }
     
+    // Obtener el endpoint actual
+    $current_endpoint = WC()->query->get_current_endpoint();
+    
+    // Si no estamos en un endpoint o estamos en el dashboard, no hacer nada
+    if (empty($current_endpoint) || $current_endpoint === 'dashboard') {
+        return;
+    }
+    
+    // Añadir filtro para permitir que se ejecute el contenido del endpoint
+    add_filter('woocommerce_account_' . $current_endpoint . '_endpoint', function($content) {
+        // Asegurarnos de que el contenido se procesa correctamente
+        ob_start();
+        if (function_exists('wc_get_template')) {
+            // Intentar cargar la plantilla del endpoint
+            wc_get_template('myaccount/' . $current_endpoint . '.php');
+        }
+        $endpoint_content = ob_get_clean();
+        
+        if (!empty($endpoint_content)) {
+            return $endpoint_content;
+        }
+        
+        return $content;
+    });
+}
+
+// Añadir en el constructor:
+public function __construct() {
+    // Código existente...
+    
+    // Añadir soporte para endpoints vía AJAX
+    add_action('template_redirect', array($this, 'maybe_handle_ajax_endpoints'), 5);
+}
     /**
      * Renderizar dashboard predeterminado
      */
