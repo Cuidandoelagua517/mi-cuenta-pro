@@ -70,7 +70,7 @@ $menu_icons = array(
         </button>
         
         <div class="mam-sidebar-logo">
-            <a href="<?php echo esc_url(home_url('/')); ?>"><?php echo esc_html(get_bloginfo('name')); ?></a>
+          <a href="/shop" class="tienda-btn">Ver Productos</a>
         </div>
         
         <ul class="mam-nav-menu">
