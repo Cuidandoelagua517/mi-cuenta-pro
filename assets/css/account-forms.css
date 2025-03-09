@@ -1,0 +1,300 @@
+/**
+ * Estilos específicos para los formularios de cuenta (registro/login)
+ */
+
+/* Variables con respaldo para compatibilidad */
+:root {
+  --mam-primary: #2563eb;
+  --mam-primary-hover: #1d4ed8;
+  --mam-secondary: #1e40af;
+  --mam-text: #1f2937;
+  --mam-light-text: #6b7280;
+  --mam-border: #e5e7eb;
+  --mam-bg: #f9fafb;
+  --mam-card-bg: #ffffff;
+  --mam-radius: 0.5rem;
+  --mam-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+/* Resetear estilos de WooCommerce que causan conflictos */
+body.woocommerce-account form.woocommerce-form .form-row {
+  padding: 0 !important;
+  margin: 0 0 20px !important;
+}
+
+body.woocommerce-account .mam-account-container input[type="text"],
+body.woocommerce-account .mam-account-container input[type="email"],
+body.woocommerce-account .mam-account-container input[type="password"],
+body.woocommerce-account .mam-account-container input[type="tel"],
+body.woocommerce-account .mam-account-container input[type="date"] {
+  width: 100% !important;
+  padding: 10px !important;
+  border: 1px solid #ddd !important;
+  border-radius: 4px !important;
+  background-color: #fff !important;
+  box-sizing: border-box !important;
+  height: auto !important;
+  line-height: normal !important;
+}
+
+/* Contenedor principal */
+body .mam-account-container {
+  max-width: 1200px !important;
+  margin: 0 auto !important;
+  padding: 20px !important;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+}
+
+/* Tarjeta de formulario */
+body .mam-form-card {
+  background-color: #fff !important;
+  border-radius: 8px !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1) !important;
+  padding: 30px 40px !important;
+  margin-bottom: 20px !important;
+}
+
+/* Encabezado de formulario */
+body .mam-form-header {
+  margin-bottom: 30px !important;
+  text-align: center !important;
+}
+
+body .mam-form-title {
+  color: #2563eb !important;
+  font-size: 24px !important;
+  font-weight: 600 !important;
+  margin-top: 0 !important;
+  margin-bottom: 8px !important;
+}
+
+body .mam-form-subtitle {
+  color: #6b7280 !important;
+  font-size: 16px !important;
+  margin-top: 0 !important;
+}
+
+/* Filas de formulario */
+body .mam-form-row {
+  display: grid !important;
+  grid-template-columns: 1fr !important;
+  margin-bottom: 20px !important;
+}
+
+body .mam-form-row.mam-date-row,
+body .mam-form-row.mam-password-row {
+  grid-template-columns: 1fr 1fr !important;
+  gap: 20px !important;
+}
+
+body .mam-form-row-group {
+  display: grid !important;
+  grid-template-columns: repeat(3, 1fr) !important;
+  gap: 20px !important;
+  margin-bottom: 20px !important;
+}
+
+/* Sección obligatoria con borde */
+body .mam-obligatory-section {
+  padding-bottom: 20px !important;
+  border-bottom: 1px solid #e5e7eb !important;
+  margin-bottom: 20px !important;
+}
+
+/* Etiquetas de campos */
+body .mam-form-row label,
+body .mam-form-col label {
+  display: block !important;
+  font-weight: 500 !important;
+  margin-bottom: 8px !important;
+  font-size: 14px !important;
+  color: #333 !important;
+}
+
+body .mam-form-row .optional,
+body .mam-form-col .optional {
+  color: #6b7280 !important;
+  font-weight: normal !important;
+  font-size: 13px !important;
+}
+
+body .required {
+  color: #e02b27 !important;
+}
+
+body .mam-field-hint {
+  font-size: 13px !important;
+  color: #6b7280 !important;
+  margin-top: 5px !important;
+  margin-bottom: 0 !important;
+}
+
+/* Contenedor de entrada con icono */
+.input-container {
+  display: flex;
+  width: 100%;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.icon-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  background-color: #f9f9f9;
+  border-right: 1px solid #eee;
+  padding: 8px;
+}
+
+.input-field-container {
+  flex: 1;
+}
+
+.input-field-container input {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.input-field-container input:focus {
+  background-color: #f0f7ff;
+}
+
+/* Política de privacidad */
+body .mam-privacy-policy-text {
+  margin-top: 25px !important;
+  margin-bottom: 15px !important;
+}
+
+body .mam-privacy-policy-text p {
+  margin: 0 !important;
+  font-size: 14px !important;
+  line-height: 1.5 !important;
+  color: #333 !important;
+}
+
+body .mam-privacy-policy-text a {
+  color: #2563eb !important;
+  text-decoration: none !important;
+}
+
+/* Casilla de privacidad */
+body .mam-privacy-row {
+  text-align: right !important;
+  margin-top: 0 !important;
+  margin-bottom: 20px !important;
+}
+
+body .mam-privacy-checkbox {
+  display: inline-flex !important;
+  align-items: center !important;
+}
+
+body .mam-privacy-checkbox input[type="checkbox"] {
+  margin-right: 8px !important;
+}
+
+body .mam-privacy-checkbox label {
+  margin-bottom: 0 !important;
+  font-weight: normal !important;
+  display: inline !important;
+  font-size: 14px !important;
+}
+
+/* Botón de envío */
+body .mam-submit-button {
+  width: 100% !important;
+  padding: 12px !important;
+  background-color: #2563eb !important;
+  color: white !important;
+  font-weight: 500 !important;
+  border: none !important;
+  border-radius: 4px !important;
+  cursor: pointer !important;
+  font-size: 16px !important;
+}
+
+body .mam-submit-button:hover {
+  background-color: #1d4ed8 !important;
+}
+
+/* Enlace de inicio de sesión */
+body .mam-form-login-link {
+  text-align: center !important;
+  font-size: 14px !important;
+  margin-top: 15px !important;
+}
+
+body .mam-form-login-link a {
+  color: #2563eb !important;
+  text-decoration: none !important;
+}
+
+body .mam-form-login-link a:hover {
+  text-decoration: underline !important;
+}
+
+/* Estilos del modal */
+body .mam-modal {
+  display: none;
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  background-color: rgba(0, 0, 0, 0.7) !important;
+  z-index: 999999 !important;
+}
+
+body .mam-modal.mam-modal-open {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+}
+
+body .mam-modal-content {
+  position: relative !important;
+  background-color: white !important;
+  margin: 20px !important;
+  padding: 30px !important;
+  width: 100% !important;
+  max-width: 500px !important;
+  border-radius: 8px !important;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3) !important;
+  max-height: 90vh !important;
+  overflow-y: auto !important;
+}
+
+body .mam-modal-close {
+  position: absolute !important;
+  top: 15px !important;
+  right: 15px !important;
+  font-size: 24px !important;
+  font-weight: 700 !important;
+  color: #888 !important;
+  cursor: pointer !important;
+  line-height: 1 !important;
+  z-index: 10 !important;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  body .mam-form-row-group {
+    grid-template-columns: 1fr !important;
+    gap: 15px !important;
+  }
+  
+  body .mam-privacy-row {
+    text-align: left !important;
+  }
+  
+  body .mam-form-card {
+    padding: 20px !important;
+  }
+}
