@@ -56,9 +56,12 @@ body.woocommerce-account .woocommerce,
     text-decoration: none;
 }
 
-/* Ocultar el botón del menú hamburguesa */
+/* Ocultar el botón del menú hamburguesa - actualizar para asegurar que no aparezca */
 .mam-sidebar-toggle {
     display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
 }
 /* Layout principal */
 .mam-dashboard-container {
@@ -109,11 +112,50 @@ body.woocommerce-account .woocommerce,
     }
 }
 /* Logo de la tienda */
+/* Ocultar el botón del menú hamburguesa - actualizar para asegurar que no aparezca */
+.mam-sidebar-toggle {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+}
+
+/* Estilos para el botón TIENDA - reescribir para que coincidan exactamente con la imagen */
+.tienda-btn {
+    display: block;
+    width: 100px;
+    margin: 20px auto 40px;
+    background-color: var(--mam-primary);
+    color: white;
+    text-align: center;
+    padding: 8px 0;
+    border-radius: 4px;
+    font-weight: 600;
+    font-size: 14px;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.tienda-btn:hover {
+    background-color: var(--mam-primary-hover);
+    color: white;
+    text-decoration: none;
+}
+
+/* Ajustar el contenedor del logo para que solo contenga el botón */
 .mam-sidebar-logo {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-bottom: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+    padding: 0 20px;
+}
+
+/* Eliminar estilos viejos del logo que puedan crear conflicto */
+.mam-sidebar-logo a:not(.tienda-btn) {
+    display: none;
 }
 
 .mam-sidebar-logo a {
