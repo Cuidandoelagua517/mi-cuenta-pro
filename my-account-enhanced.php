@@ -156,46 +156,37 @@ function mam_override_myaccount_template($template, $template_name) {
  * Cargar scripts y estilos del frontend
  */
 function mam_enqueue_frontend_assets() {
-    if (!function_exists('is_account_page') || !is_account_page()) {
+    // Verificar que la función existe (después de que WooCommerce está cargado)
+    if (!function_exists('is_account_page')) {
         return;
     }
     
-    // Primero deregistrar cualquier estilo que pueda interferir
-    wp_deregister_style('woocommerce-general');
-    wp_deregister_style('woocommerce-layout');
-    
-    // Luego registrar y encolar nuestros estilos en el orden correcto
-    wp_enqueue_style(
-        'mam-base-styles',
-        MAM_PLUGIN_URL . 'assets/css/frontend.css',
-        array(),
-        MAM_VERSION . '.' . time() // Añadir timestamp para forzar recarga
-    );
-    
-    wp_enqueue_style(
-        'mam-dashboard-styles',
-        MAM_PLUGIN_URL . 'assets/css/dashboard.css',
-        array('mam-base-styles'),
-        MAM_VERSION . '.' . time()
-    );
-    
-    wp_enqueue_style(
-        'mam-account-forms',
-        MAM_PLUGIN_URL . 'assets/css/account-forms.css',
-        array('mam-base-styles'),
-        MAM_VERSION . '.' . time()
-    );
+    // Solo cargar en páginas de Mi Cuenta
+    if (is_account_page()) {
+        // Cargar estilos básicos primero
+        wp_enqueue_style(
+            'mam-frontend-styles',
+            MAM_PLUGIN_URL . 'assets/css/frontend.css',
+            array(),
+            MAM_VERSION
+        );
         
-        // Añadir estilos críticos directamente
-        add_action('wp_head', function() {
-            echo '<style>
-                .woocommerce-MyAccount-navigation { display: none !important; }
-                .woocommerce-MyAccount-content { width: 100% !important; float: none !important; padding: 0 !important; margin: 0 !important; }
-                .woocommerce-account .woocommerce { width: 100% !important; max-width: 100% !important; padding: 0 !important; margin: 0 !important; }
-            </style>';
-        }, 999);
+        // Cargar estilos específicos manteniendo el orden correcto
+        wp_enqueue_style(
+            'mam-account-forms',
+            MAM_PLUGIN_URL . 'assets/css/account-forms.css',
+            array('mam-frontend-styles'),
+            MAM_VERSION
+        );
         
-        // Cargar script frontend 
+        wp_enqueue_style(
+            'mam-dashboard-styles',
+            MAM_PLUGIN_URL . 'assets/css/dashboard.css',
+            array('mam-frontend-styles'),
+            MAM_VERSION
+        );
+        
+        // Scripts del frontend
         wp_enqueue_script(
             'mam-frontend-scripts',
             MAM_PLUGIN_URL . 'assets/js/frontend.js',
@@ -204,7 +195,7 @@ function mam_enqueue_frontend_assets() {
             true
         );
         
-        // Localizar script - ESTO DEBE ESTAR DENTRO DE LA CONDICIÓN is_account_page()
+        // Pasar variables a JavaScript
         wp_localize_script('mam-frontend-scripts', 'MAM_Data', array(
             'ajaxurl' => admin_url('admin-ajax.php'),
             'security' => wp_create_nonce('mam-frontend-nonce'),

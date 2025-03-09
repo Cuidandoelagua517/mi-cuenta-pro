@@ -130,12 +130,12 @@ elseif (function_exists('tinv_get_wishlist_products')) {
             ? wc_get_page_permalink('myaccount') 
             : wc_get_account_endpoint_url($endpoint);
     ?>
-    <li class="<?php echo $is_active; ?>">
-        <a href="<?php echo esc_url($endpoint_url); ?>" class="direct-link">
-            <?php echo $icon; ?>
-            <span class="mam-nav-text"><?php echo esc_html($label); ?></span>
-        </a>
-    </li>
+  <li class="<?php echo $is_active; ?>">
+    <a href="<?php echo esc_url($endpoint_url); ?>" class="direct-link">
+        <?php echo $icon; ?>
+        <span class="mam-nav-text"><?php echo esc_html($label); ?></span>
+    </a>
+</li>
     <?php endforeach; ?>
 </ul>
         
