@@ -52,86 +52,185 @@
                 $('.mam-account-nav').toggleClass('is-open');
             });
         },
-    initDashboardNavigation: function() {
-        // Añadir esto dentro de initDashboardNavigation
-// Manejar envío de formularios dentro del dashboard
-$(document).on('submit', '.mam-main-content form:not(.login)', function(e) {
-    e.preventDefault();
-    
-    var $form = $(this);
-    var formData = $form.serialize();
-    var formUrl = $form.attr('action');
-    
-    // Mostrar indicador de carga
-    $('.mam-main-content').append('<div class="mam-loading">' + MAM_Data.i18n.loading + '</div>');
-    
-    $.ajax({
-        url: formUrl,
-        type: 'POST',
-        data: formData,
-        success: function(response) {
-            // Actualizar contenido con la respuesta
-            var content = $(response).find('.mam-main-content').html();
-            if (!content) {
-                content = $(response).find('.woocommerce-MyAccount-content').html();
-            }
-            $('.mam-main-content').html(content);
-        },
-        error: function() {
-            // Mostrar mensaje de error
-            $('.mam-main-content').append('<div class="mam-error">' + MAM_Data.i18n.error + '</div>');
+  // Selector más preciso para los enlaces de navegación
+    $(document).on('click', '.mam-nav-menu a, .mam-sidebar a, .woocommerce-MyAccount-navigation a', function(e) {
+        // No intervenir en enlaces externos o de logout
+        if ($(this).attr('href').indexOf('customer-logout') > -1 || 
+            $(this).attr('href').indexOf('http') === 0 && 
+            $(this).attr('href').indexOf(window.location.hostname) === -1) {
+            return true; // Permitir comportamiento por defecto
         }
-    });
-});
-    // Interceptar clics en los enlaces de navegación del dashboard
-    $(document).on('click', '.mam-nav-menu a', function(e) {
+        
         e.preventDefault();
         
         // Obtener URL del enlace
         var url = $(this).attr('href');
         
-        // Actualizar el menú (marcar elemento activo)
-        $('.mam-nav-menu li').removeClass('active');
+        // Actualizar navegación visualmente
+        $('.mam-nav-menu li, .woocommerce-MyAccount-navigation li').removeClass('active');
         $(this).closest('li').addClass('active');
         
         // Mostrar indicador de carga
-        $('.mam-main-content').append('<div class="mam-loading">' + MAM_Data.i18n.loading + '</div>');
+        $('.mam-main-content, .woocommerce-MyAccount-content').append(
+            '<div class="mam-loading">' + MAM_Data.i18n.loading + '</div>'
+        );
         
         // Cargar contenido vía AJAX
         $.ajax({
             url: url,
             dataType: 'html',
             success: function(response) {
-                // Extraer solo el contenido principal
-                var content = $(response).find('.mam-main-content').html();
+                // Intentar extraer contenido con diferentes selectores
+                var $response = $(response);
+                var content = $response.find('.mam-main-content').html();
                 
-                // Si no se encuentra el contenido, intentar con otro selector
                 if (!content) {
-                    content = $(response).find('.woocommerce-MyAccount-content').html();
+                    content = $response.find('.woocommerce-MyAccount-content').html();
+                }
+                
+                if (!content) {
+                    // Último recurso: intentar encontrar cualquier contenedor principal
+                    content = $response.find('.woocommerce-account').html();
                 }
                 
                 // Actualizar contenido
-                $('.mam-main-content').html(content);
+                if (content) {
+                    $('.mam-main-content, .woocommerce-MyAccount-content').html(content);
+                    
+                    // Inicializar funcionalidades específicas en el contenido cargado
+                    MAM.initEnhancedFields();
+                    
+                    // Disparar evento para plugins externos
+                    $(document).trigger('mam_content_updated', [url]);
+                } else {
+                    // Si todo falla, redirigir
+                    window.location.href = url;
+                    return;
+                }
                 
                 // Actualizar URL sin recargar la página
-                history.pushState(null, null, url);
+                if (history.pushState) {
+                    history.pushState(null, null, url);
+                }
+                
+                // Scroll arriba
+                $('html, body').animate({ scrollTop: 0 }, 300);
             },
             error: function() {
-                // Mostrar mensaje de error
-                $('.mam-main-content').html('<div class="mam-error">' + MAM_Data.i18n.error + '</div>');
+                // En caso de error, redirigir a la página
+                window.location.href = url;
             }
         });
     });
     
-    // Gestionar el botón atrás del navegador
+    // Manejar botón atrás del navegador
     $(window).on('popstate', function() {
-        location.reload(); // Opción simple: recargar la página cuando se usa el botón atrás
+        // Cargar contenido para la URL actual después de cambio en el historial
+        var currentUrl = window.location.href;
+        
+        $.ajax({
+            url: currentUrl,
+            dataType: 'html',
+            success: function(response) {
+                var $response = $(response);
+                var content = $response.find('.mam-main-content').html() || 
+                              $response.find('.woocommerce-MyAccount-content').html();
+                
+                if (content) {
+                    $('.mam-main-content, .woocommerce-MyAccount-content').html(content);
+                    MAM.initEnhancedFields();
+                } else {
+                    // Si todo falla, recargar
+                    window.location.reload();
+                }
+            },
+            error: function() {
+                window.location.reload();
+            }
+        });
     });
     
-    // Excluir ciertos enlaces que deben cargar la página completa
-    $(document).on('click', '.mam-nav-menu a[href*="customer-logout"]', function(e) {
-        // No prevenir el comportamiento por defecto para enlaces de cierre de sesión
-        return true;
+    // Manejar envío de formularios dentro del dashboard
+    $(document).on('submit', '.mam-main-content form, .woocommerce-MyAccount-content form', function(e) {
+        // Excluir formularios específicos
+        if ($(this).hasClass('login') || 
+            $(this).hasClass('register') || 
+            $(this).hasClass('woocommerce-checkout') ||
+            $(this).attr('enctype') === 'multipart/form-data') {
+            return true; // Comportamiento normal para estos formularios
+        }
+        
+        e.preventDefault();
+        
+        var $form = $(this);
+        var formData = $form.serialize();
+        var formUrl = $form.attr('action') || window.location.href;
+        var method = $form.attr('method') || 'POST';
+        
+        // Mostrar indicador de carga
+        $('.mam-main-content, .woocommerce-MyAccount-content').append(
+            '<div class="mam-loading">' + MAM_Data.i18n.loading + '</div>'
+        );
+        
+        $.ajax({
+            url: formUrl,
+            type: method,
+            data: formData,
+            success: function(response) {
+                var $response = $(response);
+                var content = $response.find('.mam-main-content').html() || 
+                              $response.find('.woocommerce-MyAccount-content').html();
+                
+                if (content) {
+                    $('.mam-main-content, .woocommerce-MyAccount-content').html(content);
+                    MAM.initEnhancedFields();
+                    
+                    // Si hay mensaje de éxito, mostrar notificación
+                    if ($response.find('.woocommerce-message').length) {
+                        var message = $response.find('.woocommerce-message').text();
+                        MAM.showNotification(message, 'success');
+                    }
+                } else {
+                    window.location.href = formUrl; // Fallar con gracia
+                }
+            },
+            error: function() {
+                MAM.showNotification(MAM_Data.i18n.error, 'error');
+                $('.mam-loading').remove();
+            }
+        });
+    });
+},
+
+// Añadir esta función para mostrar notificaciones
+showNotification: function(message, type) {
+    // Remover notificaciones existentes
+    $('.mam-notification').remove();
+    
+    var $notification = $('<div class="mam-notification mam-notification-' + type + '">' + 
+                         message + 
+                         '<span class="mam-notification-close">&times;</span></div>');
+    
+    $('body').append($notification);
+    
+    setTimeout(function() {
+        $notification.addClass('mam-show');
+    }, 10);
+    
+    // Auto-ocultar después de 5 segundos
+    setTimeout(function() {
+        $notification.removeClass('mam-show');
+        setTimeout(function() {
+            $notification.remove();
+        }, 300);
+    }, 5000);
+    
+    // Permitir cerrar manualmente
+    $(document).on('click', '.mam-notification-close', function() {
+        $(this).parent().removeClass('mam-show');
+        setTimeout(function() {
+            $('.mam-notification').remove();
+        }, 300);
     });
 }
         /**
