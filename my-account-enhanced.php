@@ -151,7 +151,7 @@ function mam_enqueue_frontend_assets() {
         return;
     }
     
-    // Solo cargar en páginas de Mi Cuenta
+    // Cargar estilos comunes en páginas de Mi Cuenta
     if (is_account_page()) {
         wp_enqueue_style(
             'mam-frontend-styles',
@@ -160,6 +160,26 @@ function mam_enqueue_frontend_assets() {
             MAM_VERSION
         );
         
+        // Si estamos en la página de login/register
+        if (!is_user_logged_in()) {
+            wp_enqueue_style(
+                'mam-account-forms-styles',
+                MAM_PLUGIN_URL . 'assets/css/account-forms.css',
+                array('mam-frontend-styles'),
+                MAM_VERSION
+            );
+        } 
+        // Si estamos en el dashboard o cualquier otra sección de mi cuenta
+        else {
+            wp_enqueue_style(
+                'mam-dashboard-styles',
+                MAM_PLUGIN_URL . 'assets/css/dashboard.css',
+                array('mam-frontend-styles'),
+                MAM_VERSION
+            );
+        }
+        
+        // Scripts comunes
         wp_enqueue_script(
             'mam-frontend-scripts',
             MAM_PLUGIN_URL . 'assets/js/frontend.js',
@@ -168,7 +188,7 @@ function mam_enqueue_frontend_assets() {
             true
         );
         
-        // Pasar variables a JavaScript
+        // Localize script
         wp_localize_script('mam-frontend-scripts', 'MAM_Data', array(
             'ajaxurl' => admin_url('admin-ajax.php'),
             'security' => wp_create_nonce('mam-frontend-nonce'),
