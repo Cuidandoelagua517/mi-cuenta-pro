@@ -140,15 +140,16 @@ add_action('plugins_loaded', 'mam_init');
 /**
  * Override del template de Mi Cuenta
  */
-function mam_override_myaccount_template($template, $template_name) {
-    if ($template_name === 'myaccount/form-login.php') {
-        $custom_template = MAM_PLUGIN_DIR . 'templates/my-account-template.php';
+function mam_override_dashboard_template($located, $template_name, $args, $template_path, $default_path) {
+    if ($template_name === 'myaccount/dashboard.php') {
+        $custom_template = MAM_PLUGIN_DIR . 'templates/dashboard/dashboard.php';
         if (file_exists($custom_template)) {
             return $custom_template;
         }
     }
-    return $template;
+    return $located;
 }
+add_filter('wc_get_template', 'mam_override_dashboard_template', 10, 5);
 
 /**
  * Cargar scripts y estilos del frontend
