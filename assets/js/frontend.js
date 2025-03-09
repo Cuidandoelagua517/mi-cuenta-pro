@@ -306,8 +306,20 @@
     };
     
     // Inicializar cuando el DOM esté listo
-    $(document).ready(function() {
-        MAM.init();
+  $(document).ready(function() {
+    $('.woocommerce-MyAccount-navigation-link--downloads a').on('click', function(e) {
+        e.preventDefault();
+        
+        $.ajax({
+            url: $(this).attr('href'),
+            dataType: 'html',
+            success: function(response) {
+                $('.woocommerce-MyAccount-content').html(
+                    $(response).find('.woocommerce-MyAccount-content').html()
+                );
+            }
+        });
     });
+});
     
 })(jQuery);
