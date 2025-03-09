@@ -21,6 +21,7 @@
   --mam-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
   --mam-menu-width: 250px;
 }
+
 /* Reset de visibilidad - AÑADIR AL INICIO DEL ARCHIVO */
 body.woocommerce-account .woocommerce,
 .woocommerce-account .woocommerce-MyAccount-content,
@@ -35,14 +36,19 @@ body.woocommerce-account .woocommerce,
   opacity: 1 !important;
 }
 
+/* Ocultar elementos nativos de WooCommerce que reemplazamos */
+body.woocommerce-account .woocommerce-MyAccount-navigation {
+  display: none !important;
+}
 
 /* Ocultar el botón del menú hamburguesa - actualizar para asegurar que no aparezca */
 .mam-sidebar-toggle {
-    display: none !important;
-    visibility: hidden !important;
-    opacity: 0 !important;
-    pointer-events: none !important;
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
 }
+
 /* Layout principal */
 .mam-dashboard-container {
   display: flex;
@@ -55,7 +61,7 @@ body.woocommerce-account .woocommerce,
 
 /* Sidebar de navegación */
 .mam-sidebar {
-   display: flex;
+  display: flex;
   flex-direction: column;
   width: var(--mam-menu-width);
   min-width: var(--mam-menu-width);
@@ -68,94 +74,43 @@ body.woocommerce-account .woocommerce,
   overflow-y: auto;
   z-index: 10;
 }
-@media (max-width: 768px) {
-  .mam-user-avatar {
-    position: relative; /* Cambiar de absolute a relative en móvil */
-    width: 100%;
-    justify-content: center;
-  }
-  
-  .mam-avatar-circle {
-    margin: 0 auto;
-  }
-}
-@media (max-width: 768px) {
-    .mam-sidebar {
-        width: 100%;
-        min-width: 100%;
-        max-height: none;
-        height: auto;
-        position: relative;
-    }
-    
-    .mam-nav-menu {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-    }
-    
-    .mam-nav-menu li {
-        margin: 5px;
-    }
-    
-.mam-user-avatar {
-  display: flex;
-  align-items: center;
-  padding: 20px;
-  margin-top: auto;
-  border-top: 1px solid var(--mam-border);
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  background-color: #ffffff;
-}
-}
-/* Logo de la tienda */
-/* Ocultar el botón del menú hamburguesa - actualizar para asegurar que no aparezca */
-.mam-sidebar-toggle {
-    display: none !important;
-    visibility: hidden !important;
-    opacity: 0 !important;
-    pointer-events: none !important;
-}
 
-/* Estilos para el botón TIENDA - reescribir para que coincidan exactamente con la imagen */
+/* Estilos para el botón TIENDA */
 .tienda-btn {
-    display: block;
-    width: 100px;
-    margin: 20px auto 40px;
-    background-color: var(--mam-primary);
-    color: white;
-    text-align: center;
-    padding: 8px 0;
-    border-radius: 4px;
-    font-weight: 600;
-    font-size: 14px;
-    text-decoration: none;
-    transition: background-color 0.3s ease;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
+  display: block;
+  width: 100px;
+  margin: 20px auto 40px;
+  background-color: var(--mam-primary);
+  color: white;
+  text-align: center;
+  padding: 8px 0;
+  border-radius: 4px;
+  font-weight: 600;
+  font-size: 14px;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 .tienda-btn:hover {
-    background-color: var(--mam-primary-hover);
-    color: white;
-    text-decoration: none;
+  background-color: var(--mam-primary-hover);
+  color: white;
+  text-decoration: none;
 }
 
 /* Ajustar el contenedor del logo para que solo contenga el botón */
 .mam-sidebar-logo {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 20px;
-    padding: 0 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+  padding: 0 20px;
 }
 
 /* Eliminar estilos viejos del logo que puedan crear conflicto */
 .mam-sidebar-logo a:not(.tienda-btn) {
-    display: none;
+  display: none;
 }
 
 .mam-sidebar-logo a {
@@ -198,7 +153,10 @@ body.woocommerce-account .woocommerce,
   color: var(--mam-primary);
 }
 
-.mam-nav-menu li.active a {
+/* Estilos para elementos activos en la navegación - múltiples clases para compatibilidad */
+.mam-nav-menu li.active a,
+.mam-nav-menu li.is-active a,
+.mam-nav-menu li.current-menu-item a {
   background-color: #edf2ff;
   color: var(--mam-primary);
   font-weight: 600;
@@ -225,10 +183,9 @@ body.woocommerce-account .woocommerce,
   background-color: #ffffff;
 }
 
-/* Añadir o modificar este estilo */
 .mam-avatar-circle {
-  margin: 0 auto; /* Centrado automático izquierda/derecha */
-  position: relative; /* Asegura que la posición sea relativa para cualquier ajuste adicional */
+  margin: 0 auto;
+  position: relative;
   width: 45px;
   height: 45px;
   border-radius: 50%;
@@ -238,14 +195,14 @@ body.woocommerce-account .woocommerce,
   justify-content: center;
   font-size: 18px;
   font-weight: 600;
-  color: #4a5568; /* Color de texto oscuro para mayor contraste */
-  overflow: visible; /* Asegura que el texto sea visible */
+  color: #4a5568;
+  overflow: visible;
   text-align: center;
   line-height: 1;
 }
 
 .mam-user-info {
-  display: none; /* Oculta completamente la sección de info del usuario */
+  display: none;
 }
 
 .mam-user-name {
@@ -447,7 +404,9 @@ body.woocommerce-account .woocommerce,
 }
 
 /* Botones */
-.mam-button {
+.mam-button,
+.mam-main-content .button,
+.mam-main-content .woocommerce-Button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -461,12 +420,16 @@ body.woocommerce-account .woocommerce,
   border: none;
 }
 
-.mam-button-primary {
+.mam-button-primary,
+.mam-main-content .button,
+.mam-main-content .woocommerce-Button {
   background-color: var(--mam-primary);
   color: white;
 }
 
-.mam-button-primary:hover {
+.mam-button-primary:hover,
+.mam-main-content .button:hover,
+.mam-main-content .woocommerce-Button:hover {
   background-color: var(--mam-primary-hover);
   color: white;
 }
@@ -489,6 +452,90 @@ body.woocommerce-account .woocommerce,
   font-size: 14px;
 }
 
+/* Estilos para mensajes de información de WooCommerce */
+.woocommerce-info,
+.woocommerce-message,
+.woocommerce-error {
+  background-color: #f7fafc;
+  border-radius: var(--mam-radius);
+  padding: 15px;
+  margin-bottom: 20px;
+  border-left: 4px solid var(--mam-primary);
+}
+
+.woocommerce-error {
+  border-left-color: var(--mam-error);
+  background-color: var(--mam-error-bg);
+}
+
+.woocommerce-message {
+  border-left-color: var(--mam-success);
+  background-color: var(--mam-success-bg);
+}
+
+/* Mensajes de No hay descargas */
+.mam-main-content .woocommerce-Message,
+.mam-main-content .woocommerce-info {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+/* Ajustes para los iconos de información */
+.mam-main-content .woocommerce-Message::before,
+.mam-main-content .woocommerce-info::before {
+  display: inline-block;
+  margin-right: 10px;
+  color: var(--mam-primary);
+}
+
+/* Estilos para el botón "Explorar los productos" */
+.mam-main-content .button.wc-forward {
+  margin-left: auto;
+}
+
+/* Loader para navegación AJAX */
+.mam-ajax-loader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255,255,255,0.7);
+  z-index: 9999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.mam-loader-spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid var(--mam-primary);
+  border-radius: 50%;
+  animation: mam-spin 1s linear infinite;
+}
+
+@keyframes mam-spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Utility classes */
+.mam-text-center {
+  text-align: center;
+}
+
+.mam-mt-20 {
+  margin-top: 20px;
+}
+
+.mam-mb-20 {
+  margin-bottom: 20px;
+}
+
 /* Responsive */
 @media (max-width: 1024px) {
   .mam-dashboard-cards {
@@ -505,9 +552,7 @@ body.woocommerce-account .woocommerce,
     width: 100%;
     min-width: 100%;
     height: auto;
-    max-height: 60px;
-    overflow: hidden;
-    transition: max-height 0.3s ease;
+    max-height: none;
     position: relative;
   }
   
@@ -516,7 +561,10 @@ body.woocommerce-account .woocommerce,
   }
   
   .mam-sidebar-toggle {
-    display: block;
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
     position: absolute;
     top: 20px;
     right: 20px;
@@ -533,31 +581,23 @@ body.woocommerce-account .woocommerce,
     padding: 20px 15px;
   }
   
-.mam-user-avatar {
-display: flex;
-  justify-content: center; /* Centra horizontalmente */
-  align-items: center; /* Centra verticalmente */
-  padding: 20px;
-  margin-top: auto;
-  border-top: 1px solid var(--mam-border);
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  background-color: #ffffff;
-  box-sizing: border-box; /* Asegura que el padding no afecte el ancho total */
-}
-
-
-/* Utility classes */
-.mam-text-center {
-  text-align: center;
-}
-
-.mam-mt-20 {
-  margin-top: 20px;
-}
-
-.mam-mb-20 {
-  margin-bottom: 20px;
+  .mam-user-avatar {
+    position: relative;
+    width: 100%;
+    justify-content: center;
+  }
+  
+  .mam-avatar-circle {
+    margin: 0 auto;
+  }
+  
+  .mam-nav-menu {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  
+  .mam-nav-menu li {
+    margin: 5px;
+  }
 }

@@ -158,65 +158,138 @@ function mam_override_myaccount_template($template, $template_name) {
  * Cargar scripts y estilos del frontend
  */
 function mam_enqueue_frontend_assets() {
-    // Verificar que la función existe (después de que WooCommerce está cargado)
-    if (!function_exists('is_account_page')) {
+    // Verificar que estamos en una página de cuenta
+    if (!function_exists('is_account_page') || !is_account_page()) {
         return;
     }
     
-    // Solo cargar en páginas de Mi Cuenta
-    if (is_account_page()) {
-        // Cargar estilos básicos primero
-        wp_enqueue_style(
-            'mam-frontend-styles',
-            MAM_PLUGIN_URL . 'assets/css/frontend.css',
-            array(),
-            MAM_VERSION
-        );
+    // Registrar y encolar estilos
+    wp_register_style(
+        'mam-frontend-styles',
+        MAM_PLUGIN_URL . 'assets/css/frontend.css',
+        array(),
+        MAM_VERSION
+    );
+    
+    wp_register_style(
+        'mam-account-forms',
+        MAM_PLUGIN_URL . 'assets/css/account-forms.css',
+        array('mam-frontend-styles'),
+        MAM_VERSION
+    );
+    
+    wp_register_style(
+        'mam-dashboard-styles',
+        MAM_PLUGIN_URL . 'assets/css/dashboard.css',
+        array('mam-frontend-styles'),
+        MAM_VERSION
+    );
+    
+    // Encolar estilos
+    wp_enqueue_style('mam-frontend-styles');
+    wp_enqueue_style('mam-account-forms');
+    wp_enqueue_style('mam-dashboard-styles');
+    
+    // Registrar y encolar scripts
+    wp_register_script(
+        'mam-frontend-scripts',
+        MAM_PLUGIN_URL . 'assets/js/frontend.js',
+        array('jquery'),
+        MAM_VERSION,
+        true
+    );
+    
+    wp_enqueue_script('mam-frontend-scripts');
+    
+    // Pasar datos al script
+    wp_localize_script('mam-frontend-scripts', 'MAM_Data', array(
+        'ajaxurl' => admin_url('admin-ajax.php'),
+        'security' => wp_create_nonce('mam-frontend-nonce'),
+        'i18n' => array(
+            'loading' => __('Cargando...', 'my-account-enhanced'),
+            'error' => __('Ha ocurrido un error', 'my-account-enhanced')
+        ),
+        'isMyAccount' => is_account_page() ? 'yes' : 'no'
+    ));
+}
+/**
+ * Asegurar compatibilidad con navegación AJAX
+ */
+function mam_ajax_compatibility() {
+    // Verificar si es una petición AJAX a una página de mi cuenta
+    if (wp_doing_ajax() && isset($_SERVER['HTTP_REFERER']) && 
+        strpos($_SERVER['HTTP_REFERER'], '/my-account/') !== false) {
         
-        // Cargar estilos específicos manteniendo el orden correcto
-        wp_enqueue_style(
-            'mam-account-forms',
-            MAM_PLUGIN_URL . 'assets/css/account-forms.css',
-            array('mam-frontend-styles'),
-            MAM_VERSION
-        );
-        
-        wp_enqueue_style(
-            'mam-dashboard-styles',
-            MAM_PLUGIN_URL . 'assets/css/dashboard.css',
-            array('mam-frontend-styles'),
-            MAM_VERSION
-        );
-        
-        // Scripts del frontend
-        wp_enqueue_script(
-            'mam-frontend-scripts',
-            MAM_PLUGIN_URL . 'assets/js/frontend.js',
-            array('jquery'),
-            MAM_VERSION,
-            true
-        );
-        
-        // Pasar variables a JavaScript
-        wp_localize_script('mam-frontend-scripts', 'MAM_Data', array(
-            'ajaxurl' => admin_url('admin-ajax.php'),
-            'security' => wp_create_nonce('mam-frontend-nonce'),
-            'i18n' => array(
-                'menu' => __('Menú', 'my-account-enhanced'),
-                'loading' => __('Cargando...', 'my-account-enhanced'),
-                'error' => __('Ha ocurrido un error, por favor intenta de nuevo.', 'my-account-enhanced'),
-                'view' => __('Ver', 'my-account-enhanced'),
-                'orderNumber' => __('Pedido', 'my-account-enhanced'),
-                'date' => __('Fecha', 'my-account-enhanced'),
-                'status' => __('Estado', 'my-account-enhanced'),
-                'total' => __('Total', 'my-account-enhanced'),
-                'actions' => __('Acciones', 'my-account-enhanced')
-            ),
-            'ordersUrl' => function_exists('wc_get_endpoint_url') ? wc_get_endpoint_url('orders') : ''
-        ));
+        // Cargar funciones de plantilla de WooCommerce si no están cargadas
+        if (!function_exists('wc_get_template')) {
+            WC()->frontend_includes();
+        }
     }
 }
-
+add_action('init', 'mam_ajax_compatibility', 5);
+/**
+ * Asegurar que las variables necesarias estén disponibles para el dashboard
+ */
+function mam_ensure_dashboard_variables($template_name, $template_path, $located, $args) {
+    if (strpos($located, 'dashboard/dashboard.php') !== false) {
+        // Si la plantilla es nuestro dashboard, asegurarnos de que las variables estén disponibles
+        global $user, $user_id, $user_info, $recent_orders, $company_data;
+        
+        if (!isset($user) || !is_object($user)) {
+            $user = wp_get_current_user();
+        }
+        
+        if (!isset($user_id) || empty($user_id)) {
+            $user_id = get_current_user_id();
+        }
+        
+        if (!isset($user_info) || !is_array($user_info)) {
+            // Inicializar información de usuario
+            $user_info = array(
+                'first_name' => get_user_meta($user_id, 'billing_first_name', true),
+                'last_name' => get_user_meta($user_id, 'billing_last_name', true),
+                'phone' => get_user_meta($user_id, 'billing_phone', true),
+                'birthday' => get_user_meta($user_id, 'customer_birthday', true)
+            );
+        }
+        
+        if (!isset($recent_orders)) {
+            // Obtener pedidos recientes
+            $recent_orders = wc_get_orders(array(
+                'customer' => $user_id,
+                'limit' => 5,
+                'orderby' => 'date',
+                'order' => 'DESC'
+            ));
+        }
+        
+        if (!isset($company_data)) {
+            // Obtener datos de empresa
+            $company_data = array(
+                'name' => get_user_meta($user_id, 'billing_company', true),
+                'cuit' => get_user_meta($user_id, 'billing_cuit', true)
+            );
+        }
+    }
+}
+add_action('woocommerce_before_template_part', 'mam_ensure_dashboard_variables', 10, 4);
+/**
+ * Filtrar navegación para asegurar clases CSS correctas
+ */
+function mam_filter_account_navigation($items) {
+    // Asegurar que los elementos de navegación tengan clases necesarias para JavaScript
+    foreach ($items as $endpoint => $label) {
+        add_filter('woocommerce_account_menu_item_classes', function($classes, $endpoint_check) use ($endpoint) {
+            if ($endpoint_check === $endpoint) {
+                $classes[] = 'mam-nav-item';
+                $classes[] = 'mam-nav-item-' . sanitize_html_class($endpoint);
+            }
+            return $classes;
+        }, 10, 2);
+    }
+    return $items;
+}
+add_filter('woocommerce_account_menu_items', 'mam_filter_account_navigation', 99);
 /**
  * Cargar script de validación
  */

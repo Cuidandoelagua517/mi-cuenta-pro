@@ -1,68 +1,108 @@
-
 <?php
-// En includes/class-dashboard.php
+/**
+ * Clase para manejar el dashboard personalizado
+ *
+ * @package Mi_Cuenta_Mejorado
+ */
+
+if (!defined('WPINC')) {
+    die;
+}
+
+/**
+ * Clase para gestionar el dashboard personalizado
+ */
 class MAM_Dashboard {
     
-// Al inicio del constructor de MAM_Dashboard
-public function __construct() {
-    // Aumentar la prioridad a un número más bajo para que se ejecute antes
-    remove_action('woocommerce_account_dashboard', 'woocommerce_account_dashboard');
-    add_action('woocommerce_account_dashboard', array($this, 'render_custom_dashboard'), 1);
-    
-    // Mantener los hooks existentes
-    add_filter('woocommerce_account_menu_items', array($this, 'customize_account_menu_items'), 10, 1);
-    
-    // Añadir estas líneas nuevas para asegurarnos de ocultar la navegación nativa
-    add_action('wp_head', array($this, 'add_custom_inline_styles'));
-    add_filter('body_class', array($this, 'add_body_class'));
-     // Registrar endpoints
-    add_action('init', array($this, 'register_endpoints'), 10);
-        // Añadir soporte para endpoints vía AJAX
-    add_action('template_redirect', array($this, 'maybe_handle_ajax_endpoints'), 5);
-}
-/**
- * Registrar endpoints de WooCommerce
- */
-public function register_endpoints() {
-    // Asegurarse de que los endpoints estándar de WooCommerce estén registrados
-    add_rewrite_endpoint('orders', EP_ROOT | EP_PAGES);
-    add_rewrite_endpoint('view-order', EP_ROOT | EP_PAGES);
-    add_rewrite_endpoint('downloads', EP_ROOT | EP_PAGES); // Asegurarse de que este está incluido
-    add_rewrite_endpoint('edit-account', EP_ROOT | EP_PAGES);
-    add_rewrite_endpoint('edit-address', EP_ROOT | EP_PAGES);
-    add_rewrite_endpoint('customer-logout', EP_ROOT | EP_PAGES);
-    
-    // Endpoints personalizados
-    add_rewrite_endpoint('company', EP_ROOT | EP_PAGES);
-    
-    // Importante: Hacer flush de las reglas de rewrite si es necesario
-    if (get_option('mam_flush_rewrite_rules', false)) {
-        flush_rewrite_rules();
-        delete_option('mam_flush_rewrite_rules');
-    }
-}
-/**
- * Añadir estilos inline críticos para asegurar que nuestra interfaz tome prioridad
- */
-public function add_custom_inline_styles() {
-    if (is_account_page()) {
-        echo '<style>
-            .woocommerce-MyAccount-navigation { display: none !important; }
-            .woocommerce-MyAccount-content { width: 100% !important; float: none !important; padding: 0 !important; margin: 0 !important; }
-            .woocommerce-account .woocommerce { width: 100% !important; max-width: 100% !important; padding: 0 !important; margin: 0 !important; }
-            
-            /* Estilos críticos para el dashboard moderno */
-            .mam-dashboard { display: block !important; visibility: visible !important; }
-            .mam-dashboard-container { display: flex !important; visibility: visible !important; }
-            .mam-sidebar { width: 250px; position: sticky; top: 0; height: 100vh; background: white; }
-            .mam-main-content { flex: 1; padding: 30px; }
-        </style>';
-    }
-}
- 
-    public function render_custom_dashboard() {
-        // Eliminar la acción predeterminada de WooCommerce
+    /**
+     * Constructor
+     */
+    public function __construct() {
+        // Eliminar acción nativa de WooCommerce - MAYOR PRIORIDAD
         remove_action('woocommerce_account_dashboard', 'woocommerce_account_dashboard');
+        
+        // Eliminar completamente la navegación nativa de WooCommerce
+        remove_action('woocommerce_account_navigation', 'woocommerce_account_navigation');
+        
+        // Agregar nuestro dashboard personalizado
+        add_action('woocommerce_account_dashboard', array($this, 'render_custom_dashboard'), 5);
+        
+        // Personalizar los elementos del menú
+        add_filter('woocommerce_account_menu_items', array($this, 'customize_account_menu_items'), 10, 1);
+        
+        // Añadir clase CSS para identificar elementos activos
+        add_filter('woocommerce_account_menu_item_classes', array($this, 'add_active_class_to_menu_item'), 10, 2);
+        
+        // Asegurar que los scripts se carguen en todas las páginas de mi cuenta
+        add_action('wp_enqueue_scripts', array($this, 'ensure_scripts_loaded'), 20);
+        
+        // Añadir clases específicas al body
+        add_filter('body_class', array($this, 'add_body_class'));
+        
+        // Añadir estilos inline para evitar duplicación de menús
+        add_action('wp_head', array($this, 'add_custom_inline_styles'), 100);
+    }
+    
+    /**
+     * Añadir estilos inline críticos
+     */
+    public function add_custom_inline_styles() {
+        if (is_account_page()) {
+            echo '<style>
+                .woocommerce-MyAccount-navigation { display: none !important; }
+                .woocommerce-MyAccount-content { width: 100% !important; float: none !important; padding: 0 !important; margin: 0 !important; }
+                .woocommerce-account .woocommerce { width: 100% !important; max-width: 100% !important; padding: 0 !important; margin: 0 !important; }
+                
+                /* Estilos críticos para el dashboard moderno */
+                .mam-dashboard { display: block !important; visibility: visible !important; }
+                .mam-dashboard-container { display: flex !important; visibility: visible !important; }
+                .mam-sidebar { width: 250px; position: sticky; top: 0; height: 100vh; background: white; }
+                .mam-main-content { flex: 1; padding: 30px; }
+            </style>';
+        }
+    }
+
+    /**
+     * Asegurar que scripts se carguen en mi cuenta
+     */
+    public function ensure_scripts_loaded() {
+        if (is_account_page()) {
+            // Forzar carga de scripts en todas las páginas de Mi Cuenta
+            wp_enqueue_script('mam-frontend-scripts');
+            wp_enqueue_style('mam-frontend-styles');
+            wp_enqueue_style('mam-dashboard-styles');
+        }
+    }
+    
+    /**
+     * Añadir clase active a elementos de menú
+     */
+    public function add_active_class_to_menu_item($classes, $endpoint) {
+        global $wp;
+        
+        $current = isset($wp->query_vars[$endpoint]);
+        
+        if ($endpoint === 'dashboard' && (empty($wp->query_vars) || isset($wp->query_vars['page']))) {
+            $current = true;
+        }
+        
+        if ($current) {
+            $classes[] = 'is-active';
+        }
+        
+        return $classes;
+    }
+    
+    /**
+     * Renderizar dashboard personalizado
+     */
+    public function render_custom_dashboard() {
+        // Obtener datos para la plantilla
+        $user_id = get_current_user_id();
+        $user = get_userdata($user_id);
+        $user_info = $this->get_user_info($user_id);
+        $recent_orders = $this->get_recent_orders($user_id);
+        $company_data = $this->get_company_data($user_id);
         
         // Comprobar si existe plantilla personalizada en el tema
         $template = locate_template(array(
@@ -75,57 +115,16 @@ public function add_custom_inline_styles() {
             $template = MAM_PLUGIN_DIR . 'templates/dashboard/dashboard.php';
         }
         
-        // Si existe, incluir la plantilla
+        // Si existe, incluir la plantilla (con todas las variables necesarias)
         if (file_exists($template)) {
-            // Obtener datos para la plantilla
-            $user_id = get_current_user_id();
-            $user = get_userdata($user_id);
-            $user_info = $this->get_user_info($user_id);
-            $recent_orders = $this->get_recent_orders($user_id);
-            $company_data = $this->get_company_data($user_id);
-            
+            // Asegurarnos de que todas las variables estén disponibles para la plantilla
             include $template;
         } else {
             // Si no existe plantilla, mostrar dashboard predeterminado
             $this->render_default_dashboard();
         }
     }
-    // En includes/class-dashboard.php
-// Añade esta función en la clase MAM_Dashboard:
-
-public function maybe_handle_ajax_endpoints() {
-    // Verificar si es una petición AJAX
-    if (defined('DOING_AJAX') && DOING_AJAX) {
-        return;
-    }
     
-    // Obtener el endpoint actual
-    $current_endpoint = WC()->query->get_current_endpoint();
-    
-    // Si no estamos en un endpoint o estamos en el dashboard, no hacer nada
-    if (empty($current_endpoint) || $current_endpoint === 'dashboard') {
-        return;
-    }
-    
-    // Añadir filtro para permitir que se ejecute el contenido del endpoint
-    add_filter('woocommerce_account_' . $current_endpoint . '_endpoint', function($content) {
-        // Asegurarnos de que el contenido se procesa correctamente
-        ob_start();
-        if (function_exists('wc_get_template')) {
-            // Intentar cargar la plantilla del endpoint
-            wc_get_template('myaccount/' . $current_endpoint . '.php');
-        }
-        $endpoint_content = ob_get_clean();
-        
-        if (!empty($endpoint_content)) {
-            return $endpoint_content;
-        }
-        
-        return $content;
-    });
-}
-
-
     /**
      * Renderizar dashboard predeterminado
      */
@@ -279,143 +278,3 @@ public function maybe_handle_ajax_endpoints() {
                     </a>
                 </div>
             </div>
-        </div>
-        <?php
-    }
-    
-    /**
-     * Obtener información del usuario
-     *
-     * @param int $user_id ID del usuario
-     * @return array Información del usuario
-     */
-    public function get_user_info($user_id) {
-        return array(
-            'first_name' => get_user_meta($user_id, 'billing_first_name', true),
-            'last_name' => get_user_meta($user_id, 'billing_last_name', true),
-            'phone' => get_user_meta($user_id, 'billing_phone', true),
-            'birthday' => get_user_meta($user_id, 'customer_birthday', true)
-        );
-    }
-    
-    /**
-     * Obtener pedidos recientes del usuario
-     *
-     * @param int $user_id ID del usuario
-     * @param int $limit Número de pedidos a obtener
-     * @return array Pedidos recientes
-     */
-    public function get_recent_orders($user_id, $limit = 5) {
-        return wc_get_orders(array(
-            'customer' => $user_id,
-            'limit' => $limit,
-            'orderby' => 'date',
-            'order' => 'DESC'
-        ));
-    }
-    
-    /**
-     * Obtener datos de empresa del usuario
-     *
-     * @param int $user_id ID del usuario
-     * @return array Datos de empresa
-     */
-    public function get_company_data($user_id) {
-        return array(
-            'name' => get_user_meta($user_id, 'billing_company', true),
-            'cuit' => get_user_meta($user_id, 'billing_cuit', true)
-        );
-    }
-    
-    /**
-     * Personalizar orden y elementos del menú de cuenta
-     *
-     * @param array $items Items del menú
-     * @return array Items modificados
-     */
-    public function customize_account_menu_items($items) {
-        // Obtener configuración de secciones
-        $section_settings = get_option('mam_section_settings', array());
-        
-        // Si no hay configuración, devolver los items sin modificar
-        if (empty($section_settings)) {
-            return $items;
-        }
-        
-        $new_items = array();
-        
-        // Filtrar y ordenar secciones según configuración
-        foreach ($section_settings as $section_id => $section) {
-            // Si la sección está habilitada y existe en los items originales
-            if (isset($section['enabled']) && $section['enabled'] && isset($items[$section_id])) {
-                $new_items[$section_id] = $items[$section_id];
-            }
-        }
-        
-        // Si hay secciones habilitadas, ordenarlas por posición
-        if (!empty($new_items)) {
-            // Crear array temporal con posiciones
-            $temp_items = array();
-            foreach ($new_items as $section_id => $label) {
-                $temp_items[$section_id] = array(
-                    'label' => $label,
-                    'position' => isset($section_settings[$section_id]['position']) ? $section_settings[$section_id]['position'] : 999
-                );
-            }
-            
-            // Ordenar por posición
-            uasort($temp_items, function($a, $b) {
-                return $a['position'] - $b['position'];
-            });
-            
-            // Reconstruir array final
-            $new_items = array();
-            foreach ($temp_items as $section_id => $data) {
-                $new_items[$section_id] = $data['label'];
-            }
-            
-            // Añadir el endpoint de empresa si no está incluido pero el usuario tiene datos de empresa
-            $user_id = get_current_user_id();
-            $company_name = get_user_meta($user_id, 'billing_company', true);
-            
-            if (!empty($company_name) && !isset($new_items['company'])) {
-                // Buscar la posición de logout
-                if (isset($new_items['customer-logout'])) {
-                    // Guardar el logout
-                    $logout = $new_items['customer-logout'];
-                    unset($new_items['customer-logout']);
-                    
-                    // Añadir empresa
-                    $new_items['company'] = __('Mi Empresa', 'my-account-enhanced');
-                    
-                    // Volver a añadir el logout
-                    $new_items['customer-logout'] = $logout;
-                } else {
-                    // Si no hay logout, simplemente añadir al final
-                    $new_items['company'] = __('Mi Empresa', 'my-account-enhanced');
-                }
-            }
-            
-            return $new_items;
-        }
-        
-        // Si no hay secciones habilitadas, devolver los items originales
-        return $items;
-    }
-    
-    /**
-     * Añadir clase CSS al cuerpo para personalizar
-     *
-     * @param array $classes Clases del cuerpo
-     * @return array Clases modificadas
-     */
-   public function add_body_class($classes) {
-    if (is_account_page()) {
-        $classes[] = 'mam-my-account';
-        // AÑADE esta línea a la función existente
-        $classes[] = 'mam-modernized-account'; // Nueva clase para el diseño modernizado
-    }
-    
-    return $classes;
-}
-}
