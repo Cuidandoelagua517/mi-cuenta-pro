@@ -15,8 +15,30 @@ public function __construct() {
     // Añadir estas líneas nuevas para asegurarnos de ocultar la navegación nativa
     add_action('wp_head', array($this, 'add_custom_inline_styles'));
     add_filter('body_class', array($this, 'add_body_class'));
+     // Registrar endpoints
+    add_action('init', array($this, 'register_endpoints'), 10);
 }
-
+/**
+ * Registrar endpoints de WooCommerce
+ */
+public function register_endpoints() {
+    // Asegurarse de que los endpoints estándar de WooCommerce estén registrados
+    add_rewrite_endpoint('orders', EP_ROOT | EP_PAGES);
+    add_rewrite_endpoint('view-order', EP_ROOT | EP_PAGES);
+    add_rewrite_endpoint('downloads', EP_ROOT | EP_PAGES);
+    add_rewrite_endpoint('edit-account', EP_ROOT | EP_PAGES);
+    add_rewrite_endpoint('edit-address', EP_ROOT | EP_PAGES);
+    add_rewrite_endpoint('customer-logout', EP_ROOT | EP_PAGES);
+    
+    // Endpoints personalizados
+    add_rewrite_endpoint('company', EP_ROOT | EP_PAGES);
+    
+    // Importante: Hacer flush de las reglas de rewrite si es necesario
+    if (get_option('mam_flush_rewrite_rules', false)) {
+        flush_rewrite_rules();
+        delete_option('mam_flush_rewrite_rules');
+    }
+}
 /**
  * Añadir estilos inline críticos para asegurar que nuestra interfaz tome prioridad
  */
